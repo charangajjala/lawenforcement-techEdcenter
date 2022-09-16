@@ -1,0 +1,10 @@
+.nav-link{
+    padding: 10px;
+    margin:10px 20px;
+}
+.nav-item a:hover,.nav-item a.active{
+    color:blue !important;
+}
+.nav-link{
+    color: black !important;
+}

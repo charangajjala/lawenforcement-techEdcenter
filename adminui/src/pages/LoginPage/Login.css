@@ -1,0 +1,22 @@
+
+#loginForm {
+  max-width: 256px;
+  margin: auto;
+}
+#loginForm .form-control-1{
+  width: 256px;
+}
+#loginForm button{
+    width: 256px;
+}
+#loginForm .lostP{
+   display: flex;
+   justify-content: flex-end;
+}
+#loginForm img{
+  background-color: black;
+  margin-bottom: 5px;
+  width: 256px;
+  height:75px;
+}
+

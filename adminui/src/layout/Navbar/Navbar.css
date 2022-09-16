@@ -1,0 +1,14 @@
+.navbar-brand img {
+  width: 180px;
+  height: 50px;
+  margin-left: 20px;
+}
+.d-flex { 
+    align-items: center;
+}
+.d-flex > *{
+    margin-right: 20px;
+    color: white;
+    text-decoration: none;
+}
+
