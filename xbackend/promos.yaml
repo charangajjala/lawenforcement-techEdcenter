@@ -1,0 +1,174 @@
+openapi: 3.0.0
+
+info:
+  title: X Backend Discount Codes
+  description: ""
+  version: 1.0.0
+
+paths:
+
+  /admin/promos/:
+    post:
+      tags:
+        - Admin Promos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminPromoRequest'
+      responses:
+        '201':
+          description: Created class
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminPromoResponse'
+    get:
+      tags:
+        - Admin Promos
+        
+      responses:
+        '200':
+          description: List of Classes
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    code:
+                      type: string
+                    type:
+                      type: string
+                      enum: [SEATS, FLAT, PERCENTAGE]
+                    value:
+                      type: string
+                    singleUse:
+                      type: boolean
+                    expiryDate:
+                      type: string
+                    isActive:
+                      type: boolean
+                    created:
+                      type: string
+        
+  /admin/promos/{promoId}/:
+    parameters:
+    - name: promoId
+      in: path
+      schema:
+        type:
+          integer
+      description: Promo Id
+      required: true
+
+    get:
+      tags:
+        - Admin Promos
+      responses:
+        '200':
+          description: Promo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminPromoResponse'
+          
+    put:
+      tags:
+        - Admin Promos
+      requestBody:
+        required: true
+        content:
+           application/json:
+            schema:
+              $ref: '#/components/schemas/AdminPromoRequest'
+              
+      responses:
+        '200':
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminPromoResponse'
+    
+    delete:
+      tags:
+        - Admin Promos
+      responses:
+        '200':
+          description: promo deleted
+
+  /promos/{promoId}/:
+    parameters:
+    - name: promoId
+      in: path
+      schema:
+        type:
+          integer
+      description: Promo Id
+      required: true
+
+    get:
+      tags:
+        - Promos
+      responses:
+        '200':
+          description: Promo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  code:
+                    type: string
+                  type:
+                    type: string
+                    enum: [SEATS, FLAT, PERCENTAGE]
+                  value:
+                    type: string
+
+components:
+  schemas:
+    AdminPromoRequest:
+      type: object
+      properties:
+        code:
+          type: string
+        type:
+          type: string
+          enum: [SEATS, FLAT, PERCENTAGE]
+        value:
+          type: string
+        singleUse:
+          type: boolean
+        expiryDate:
+          type: string
+        isActive:
+          type: boolean
+        
+    AdminPromoResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        code:
+          type: string
+        type:
+          type: string
+          enum: [SEATS, FLAT, PERCENTAGE]
+        value:
+          type: string
+        singleUse:
+          type: boolean
+        expiryDate:
+          type: string
+        isActive:
+          type: boolean
+        created:
+          type: string

@@ -1,0 +1,402 @@
+openapi: 3.0.0
+
+info:
+  title: User APIs
+  description: ""
+  version: 1.0.0
+
+tags:
+- name: Admin Users
+  description: Admin Users API
+- name: Users
+  description: User API
+
+paths:
+  /users/:
+    post:
+      tags:
+        - Users
+      summary: create user
+      description: ""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/URequest'
+      
+      responses:
+        '201':
+          description: user created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UResponse'
+    get:
+      tags:
+        - Users
+      summary: get user
+      description: ""
+      
+      responses:
+        '200':
+          description: get user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UResponse'
+                
+    put:
+      tags:
+        - Users
+      summary: edit user
+      description: ""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/URequest'
+      
+      responses:
+        '200':
+          description: edit user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UResponse'
+                
+  /admin/users/:
+    post:
+      tags:
+        - Admin Users
+      summary: Creates a user.
+      description: ""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+              
+      responses: 
+        '201':
+          description: A user object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+                
+    get:
+      tags:
+      - Admin Users
+      summary: Returns a list of active users
+      description: ""
+
+      responses:
+        '200':
+          description: List of users - Array of user objects
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    firstName:
+                      type: string
+                      example: John
+                    lastName:
+                      type: string
+                      example: Doe
+                    email:
+                      type: string
+                      example: johndoe@gmail.com
+                    phone:
+                      type: string
+                      example: 8122292383
+                    isAdmin:
+                      type: boolean
+                      example: false
+                    isSuperUser:
+                      type: boolean
+                      example: false
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+          
+  /admin/users/{userId}:
+    parameters:
+      - name: userId
+        in: path
+        schema:
+          type: integer
+        description: User ID
+        required: true
+    get:
+      tags:
+        - Admin Users
+      summary: Get a user
+      
+      responses:
+        '200':
+          description: A user object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+    put:
+      tags:
+        - Admin Users
+      summary: Update a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+              
+      responses:
+        '200':
+          description: A user object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+    delete:
+      tags:
+        - Admin Users
+      summary: Get a user
+      
+      responses:
+        '200':
+          description: Deleted
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+          
+  /authentication/:
+    post:
+      tags:
+        - Authentication
+      summary: Returns access and refresh
+      description: ""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: johndoe@gmail.com
+                password:
+                  type: string
+                  example: some password
+              
+      responses: 
+        '200':
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3BrIjoxLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiY29sZF9zdHVmZiI6IuKYgyIsImV4cCI6MTIzNDU2LCJqdGkiOiJmZDJmOWQ1ZTFhN2M0MmU4OTQ5MzVlMzYyYmNhOGJjYSJ9.NHlztMGER7UADHZJlxNG0WSi22a2KaYSfd1S-AuT7lU"
+                  refresh:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3BrIjoxLCJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImNvbGRfc3R1ZmYiOiLimIMiLCJleHAiOjIzNDU2NywianRpIjoiZGUxMmY0ZTY3MDY4NDI3ODg5ZjE1YWMyNzcwZGEwNTEifQ.aEoAYkSJjoWH1boshQAaTkf8G3yn0kapko6HFRt7Rh4"
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+          
+  /authentication/refresh/:
+    post:
+      tags:
+        - Authentication
+      summary: Returns access and refresh
+      description: ""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refresh:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3BrIjoxLCJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImNvbGRfc3R1ZmYiOiLimIMiLCJleHAiOjIzNDU2NywianRpIjoiZGUxMmY0ZTY3MDY4NDI3ODg5ZjE1YWMyNzcwZGEwNTEifQ.aEoAYkSJjoWH1boshQAaTkf8G3yn0kapko6HFRt7Rh4"
+              
+      responses: 
+        '200':
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3BrIjoxLCJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiY29sZF9zdHVmZiI6IuKYgyIsImV4cCI6MTIzNDU2LCJqdGkiOiJmZDJmOWQ1ZTFhN2M0MmU4OTQ5MzVlMzYyYmNhOGJjYSJ9.NHlztMGER7UADHZJlxNG0WSi22a2KaYSfd1S-AuT7lU"
+                  
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+components:
+  schemas:
+
+    Address:
+      type: object
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
+    
+    UserRequest:
+      type: object
+      required: ['firstName', 'lastName', 'email']
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        password:
+          type: string
+        email2:
+          type: string
+        phone2:
+          type: string
+        isAdmin:
+          type: boolean
+          default: false
+        isSuperUser:
+          type: boolean
+          default: false
+        address:
+          $ref: '#/components/schemas/Address'
+          
+    URequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        password:
+          type: string
+        email2:
+          type: string
+        phone2:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+          
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        password:
+          type: string
+        email2:
+          type: string
+        phone2:
+          type: string
+        isAdmin:
+          type: boolean
+          default: false
+        isSuperUser:
+          type: boolean
+          default: false
+        address:
+          $ref: '#/components/schemas/Address'
+        isDeleted:
+          type: boolean
+          default: false
+        created:
+          type: string
+        createdBy:
+          type: object
+          properties:
+            id:
+              type: integer
+            firstName:
+              type: string
+            lastName:
+              type: string
+        history:
+          type: array
+          items:
+            type: object
+    UResponse:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        password:
+          type: string
+        email2:
+          type: string
+        phone2:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+
+

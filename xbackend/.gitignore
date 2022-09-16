@@ -1,0 +1,10 @@
+cloud_sql_proxy
+
+*/migrations/__pycache__/*.py*
+*/migrations/*.py*
+*/__pycache__/*.py*
+*/*/__pycache__/*.py*
+*.swp
+*/static/*
+static/
+.coverage

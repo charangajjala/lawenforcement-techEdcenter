@@ -1,0 +1,10 @@
+.navbar,
+.nav {
+  background-color: #0070c0;
+}
+
+.nav-item a:hover,
+.nav-item a.active {
+  border-bottom: 1px solid white;
+}
+

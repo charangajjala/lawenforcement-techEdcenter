@@ -1,0 +1,750 @@
+openapi: 3.0.0
+
+info:
+  title: X Backend Hosts
+  description: ""
+  version: 1.0.0
+
+paths:
+  /admin/hosts/locations/:
+    post:
+      tags:
+        - Admin Host Locations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminLocationRequest'
+      
+      responses:
+        '201':
+          description: Create Host
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLocationResponse'
+                
+    get:
+      tags:
+        - Admin Host Locations
+        
+      responses:
+        '200':
+          description: Get list of Hosts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 2
+                    name:
+                      type: string
+                      example: Lino Lakes Police Department
+                    city:
+                      type: string
+                      example: Irving
+                    state:
+                      type: string
+                      example: TX
+                    seats:
+                      type: integer
+                      example: 150
+                    isActive:
+                      type: boolean
+                    created:
+                      type: string
+
+  /admin/hosts/locations/{locationId}/:
+    parameters:
+      - name: locationId
+        in: path
+        schema:
+          type:
+            integer
+        description: location id
+        required: true
+        
+    get:
+      tags:
+        - Admin Host Locations
+        
+      responses:
+        '200':
+          description: get training location
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLocationResponse'
+
+    put:
+      tags:
+        - Admin Host Locations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminLocationRequest'
+      
+      responses:
+        '200':
+          description: edit training locations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLocationResponse'
+
+    delete:
+      tags:
+        - Admin Host Locations
+        
+      responses:
+        '200':
+          description: Training location deleted
+
+  /admin/hosts/:
+    post:
+      tags:
+        - Admin Hosts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminHostRequest'
+      
+      responses:
+        '201':
+          description: Create Host
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminHostResponse'
+                
+    get:
+      tags:
+        - Admin Hosts
+        
+      responses:
+        '200':
+          description: Get list of Hosts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 2
+                    name:
+                      type: string
+                      example: Lino Lakes Police Department
+                    city:
+                      type: string
+                      example: Irving
+                    state:
+                      type: string
+                      example: TX
+                    status:
+                      type: string
+                      enum: [RECEIVED, REVIEW, DEFER, SHORTLIST, REJECT, ONBOARDING, LOA, SIGNED]
+                    isActive:
+                      type: boolean
+                    created:
+                      type: string
+
+  /admin/hosts/{hostId}/:
+    parameters:
+      - name: hostId
+        in: path
+        schema:
+          type:
+            integer
+        description: host id
+        required: true
+        
+    get:
+      tags:
+        - Admin Hosts
+        
+      responses:
+        '200':
+          description: get host profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminHostResponse'
+
+    put:
+      tags:
+        - Admin Hosts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminHostRequest'
+      
+      responses:
+        '200':
+          description: edit host profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminHostResponse'
+
+    delete:
+      tags:
+        - Admin Hosts
+        
+      responses:
+        '200':
+          description: Host deleted
+
+  /hosts/:
+    get:
+      tags:
+        - Hosts
+        
+      responses:
+        '200':
+          description: get host profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostResponse'
+
+    put:
+      tags:
+        - Hosts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HostRequest'
+      
+      responses:
+        '200':
+          description: edit host profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostResponse'
+
+    post:
+      tags:
+        - Hosts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HostRequest'
+      
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostResponse'
+                
+  /locations/:
+    get:
+      tags:
+        - Locations
+        
+      responses:
+        '200':
+          description: get location
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationResponse'
+
+    put:
+      tags:
+        - Locations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationRequest'
+      
+      responses:
+        '200':
+          description: edit location
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationResponse'
+
+    post:
+      tags:
+        - Locations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationRequest'
+      
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationResponse'
+
+components:
+  schemas:
+    Address:
+      type: object
+      required: [address1, city, state, zip]
+      properties:
+        address1:
+          type: string
+          example: 8 Tom's Dr
+        address2:
+          type: string
+          example: Apt 144
+        city:
+          type: string
+          example: Terre Haute
+        state:
+          type: string
+          example: Iowa
+        zip:
+          type: string
+          example: 57501
+    Contact:
+      type: object
+      required: [name, email, phone]
+      properties:
+        title:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        email2:
+          type: string
+        phone2:
+          type: string
+          
+    AdminLocationRequest:
+      type: object
+      required: [name, address, seats, isWifiEnabled, isAudioEnabled, isProjectionEnabled, isMicAvailable, hasFlatScreens, locationContact]
+      properties:
+        name:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        seats:
+          type: integer
+          example: 150
+        isWifiEnabled:
+          type: boolean
+        isAudioEnabled:
+          type: boolean
+        isProjectionEnabled:
+          type: boolean
+        isMicAvailable:
+          type: boolean
+        hasFlatScreens:
+          type: boolean
+        locationContact:
+          $ref: '#/components/schemas/Contact'  
+        closestAirports:
+          type: string
+        intel:
+          type: string
+        adminNotes:
+          type: string
+        notes:
+          type: string
+        isActive:
+          type: boolean
+    LocationRequest:
+      type: object
+      required: [name, address, seats, isWifiEnabled, isAudioEnabled, isProjectionEnabled, isMicAvailable, hasFlatScreens, locationContact]
+      properties:
+        name:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        seats:
+          type: integer
+          example: 150
+        isWifiEnabled:
+          type: boolean
+        isAudioEnabled:
+          type: boolean
+        isProjectionEnabled:
+          type: boolean
+        isMicAvailable:
+          type: boolean
+        hasFlatScreens:
+          type: boolean
+        locationContact:
+          $ref: '#/components/schemas/Contact'  
+        closestAirports:
+          type: string
+        notes:
+          type: string
+    
+    AdminLocationResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2
+        name:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        seats:
+          type: integer
+          example: 150
+        isWifiEnabled:
+          type: boolean
+        isAudioEnabled:
+          type: boolean
+        isProjectionEnabled:
+          type: boolean
+        isMicAvailable:
+          type: boolean
+        hasFlatScreens:
+          type: boolean
+        locationContact:
+          $ref: '#/components/schemas/Contact'  
+        closestAirports:
+          type: string
+        intel:
+          type: string
+        adminNotes:
+          type: string
+        notes:
+          type: string
+        isActive:
+          type: boolean
+        isDeleted:
+          type: boolean
+        created:
+          type: string
+        createdBy:
+          type: object
+          properties:
+            id:
+              type: string
+            firstName:
+              type: string
+            lastName:
+              type: string
+        history:
+          type: object
+    LocationResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2
+        name:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        seats:
+          type: integer
+          example: 150
+        isWifiEnabled:
+          type: boolean
+        isAudioEnabled:
+          type: boolean
+        isProjectionEnabled:
+          type: boolean
+        isMicAvailable:
+          type: boolean
+        hasFlatScreens:
+          type: boolean
+        locationContact:
+          $ref: '#/components/schemas/Contact'  
+        closestAirports:
+          type: string
+        notes:
+          type: string
+        
+    AdminHostRequest:
+      type: object
+      required: [name, address, logo, website, contactUserId, supervisorContact, hostingType, locations, status]
+      properties:
+        name:
+          type: string
+          example:  Lino Lakes Police Department
+        address:
+          $ref: '#/components/schemas/Address'
+        logo:
+          type: integer
+          example: 2
+        website:
+          type: string
+          example: https://www.google.com
+        contactUserId:
+          type: integer
+        supervisorContact:
+          $ref: '#/components/schemas/Contact'  
+        courses:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              action:
+                type: string
+                enum: [ADD, DELETE]
+                example: ADD
+        hostingType:
+          type: string
+          enum: [OPEN, INSERVICE, CONFERENCE, SPEAKER, SPLIT, WEBINAR, VIRTUAL]
+        locations:
+          type: array
+          items: 
+            type: object
+            properties:
+              id:
+                type: integer
+              action:
+                type: string
+                enum: [ADD, DELETE]
+        docs:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+                enum: [ADD, DELETE]
+                example: ADD
+              id:
+                type: integer
+                example: 2
+        comments:
+          type: string
+        adminNotes:
+          type: string    
+        isActive:
+          type: boolean
+          default: false
+        status:
+          type: string
+          enum: [RECEIVED, REVIEW, DEFER, SHORTLIST, REJECT, ONBOARDING, LOA, SIGNED]
+    HostRequest:
+      type: object
+      required: [name, address, website, contactUserId, supervisorContact, courses, hostingType, locations]
+      properties:
+        name:
+          type: string
+          example:  Lino Lakes Police Department
+        address:
+          $ref: '#/components/schemas/Address'
+        logo:
+          type: integer
+          example: 2
+        website:
+          type: string
+          example: https://www.google.com
+        contactUserId:
+          type: integer
+        supervisorContact:
+          $ref: '#/components/schemas/Contact'  
+        courses:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              action:
+                type: string
+                enum: [ADD, DELETE]
+                example: ADD
+        hostingType:
+          type: string
+          enum: [OPEN, INSERVICE, CONFERENCE, SPEAKER, SPLIT, WEBINAR, VIRTUAL]
+        locations:
+          type: array
+          items: 
+            type: object
+            properties:
+              id:
+                type: integer
+              action:
+                type: string
+                enum: [ADD, DELETE]
+        docs:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+                enum: [ADD, DELETE]
+                example: ADD
+              id:
+                type: integer
+                example: 2
+        comments:
+          type: string
+    
+    AdminHostResponse:
+      type: object
+      properties:
+        id: 
+          type: integer
+          example: 2
+        name:
+          type: string
+          example:  Lino Lakes Police Department
+        address:
+          $ref: '#/components/schemas/Address'
+        logo:
+          type: integer
+          example: url of the logo
+        website:
+          type: string
+          example: https://www.google.com
+        contactUserId:
+          type: integer
+        supervisorContact:
+          $ref: '#/components/schemas/Contact'  
+        courses:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              title:
+                type: string
+        hostingType:
+          type: string
+          enum: [OPEN, INSERVICE, CONFERENCE, SPEAKER, SPLIT, WEBINAR, VIRTUAL]
+        locations:
+          type: array
+          items: 
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              address:
+                $ref: '#/components/schemas/Address'
+        docs:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 2
+              name:
+                type: string
+              url:
+                type: string
+        comments:
+          type: string
+        adminNotes:
+          type: string    
+        status:
+          type: string
+          enum: [RECEIVED, REVIEW, DEFER, SHORTLIST, REJECT, ONBOARDING, LOA, SIGNED]
+        isActive:
+          type: boolean
+          default: false
+        isDeleted:
+          type: boolean
+        created:
+          type: string
+        createdBy:
+          type: object
+          properties:
+            id:
+              type: integer
+            firstName:
+              type: string
+            lastName:
+              type: string
+        history:
+          type: object
+    HostResponse:
+      type: object
+      properties:
+        id: 
+          type: integer
+          example: 2
+        name:
+          type: string
+          example:  Lino Lakes Police Department
+        address:
+          $ref: '#/components/schemas/Address'
+        logo:
+          type: integer
+          example: url of the logo
+        website:
+          type: string
+          example: https://www.google.com
+        contactUserId:
+          type: integer
+        supervisorContact:
+          $ref: '#/components/schemas/Contact'  
+        courses:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              title:
+                type: string
+        hostingType:
+          type: string
+          enum: [OPEN, INSERVICE, CONFERENCE, SPEAKER, SPLIT, WEBINAR, VIRTUAL]
+        locations:
+          type: array
+          items: 
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              address:
+                $ref: '#/components/schemas/Address'
+        docs:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 2
+              name:
+                type: string
+              url:
+                type: string
+        comments:
+          type: string
+        

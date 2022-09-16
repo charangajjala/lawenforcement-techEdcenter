@@ -1,0 +1,281 @@
+openapi: 3.0.0
+
+info:
+  title: X Backend Students
+  description: ""
+  version: 1.0.0
+
+paths:
+  /admin/students/:
+    post:
+      tags:
+        - Admin Students
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminStudentRequest'
+      
+      responses:
+        '201':
+          description: Create student
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminStudentResponse'
+                
+    get:
+      tags:
+        - Admin Students
+        
+      responses:
+        '200':
+          description: Get list of students
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 2
+                    firstName:
+                      type: string
+                    lastName:
+                      type: string
+                    email:
+                      type: string
+                    agency:
+                      type: string
+                    isActive:
+                      type: boolean
+                    created:
+                      type: string
+
+  /admin/students/{studentId}/:
+    parameters:
+      - name: studentId
+        in: path
+        schema:
+          type:
+            integer
+        description: student id
+        required: true
+        
+    get:
+      tags:
+        - Admin Students
+        
+      responses:
+        '200':
+          description: get student profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminStudentResponse'
+
+    put:
+      tags:
+        - Admin Students
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminStudentRequest'
+      
+      responses:
+        '200':
+          description: edit student profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminStudentResponse'
+
+    delete:
+      tags:
+        - Admin Students
+        
+      responses:
+        '200':
+          description: Student deleted
+
+  /students/:
+    post:
+      tags:
+        - Students
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentRequest'
+      
+      responses:
+        '201':
+          description: Create student
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
+
+    get:
+      tags:
+        - Students
+        
+      responses:
+        '200':
+          description: get student profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
+
+    put:
+      tags:
+        - Students
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentRequest'
+      
+      responses:
+        '200':
+          description: edit student profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
+
+components:
+  schemas:
+    AdminStudentRequest:
+      type: object
+      required: [userId, agency]
+      properties:
+        userId:
+          type: integer
+        agency:
+          type: string
+        docs:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+                enum: [ADD, DELETE]
+                example: ADD
+              id:
+                type: integer
+                example: 2
+        comments:
+          type: string
+        adminNotes:
+          type: array
+          items:
+            type: string
+        isActive:
+          type: boolean
+          default: false
+
+    AdminStudentResponse:
+      type: object
+      properties:
+        id: 
+          type: integer
+          example: 2
+        userId:
+          type: integer
+        docs:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 2
+              name:
+                type: string
+              url:
+                type: string
+        comments:
+          type: string
+        adminNotes:
+          type: array
+          items:
+            type: object
+            properties:
+              text: 
+                type: string
+                example: random text
+              created:
+                type: string
+              createdBy:
+                type: string
+        isActive:
+          type: boolean
+          default: false
+        isDeleted:
+          type: boolean
+        created:
+          type: string
+        createdBy:
+          type: object
+          properties:
+            id:
+              type: integer
+            firstName:
+              type: string
+            lastName:
+              type: string
+        history:
+          type: object
+    StudentRequest:
+      type: object
+      required: [userId, agency]
+      properties:
+        userId:
+          type: integer
+        agency:
+          type: string
+        docs:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+                enum: [ADD, DELETE]
+                example: ADD
+              id:
+                type: integer
+                example: 2
+        comments:
+          type: string
+        
+    StudentResponse:
+      type: object
+      properties:
+        userId:
+          type: integer
+        docs:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 2
+              name:
+                type: string
+              url:
+                type: string
+        comments:
+          type: string
+        

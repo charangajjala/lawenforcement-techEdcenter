@@ -1,0 +1,19 @@
+steps:
+    - name: 'python:3.8'
+      entrypoint: python3
+      args: ['-m', 'pip', 'install', '-r', 'requirements.txt']
+# This installs your requirements and `--user` makes them persist between steps
+
+    - name: 'python:3.8'
+      entrypoint: python3
+      args: ['./manage.py', 'makemigrations']
+    
+    - name: 'python:3.8'
+      entrypoint: python3
+      args: ['./manage.py', 'migrate']
+  #- name: 'python'
+  #  args: ['python3','pytest', 'functions/folder_a/test/'] #run all tests in the tests folder
+
+  # Step 3: This step will execute app.yaml in your ui folder and deploy your app based on the configuration specified
+    - name: "gcr.io/cloud-builders/gcloud"
+      args: ["app", "deploy"]

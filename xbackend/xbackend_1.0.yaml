@@ -1,0 +1,1177 @@
+openapi: 3.0.0
+
+info:
+  title: X Backend Courses
+  description: ""
+  version: 1.0.0
+
+paths:
+
+  /admin/courses/topics/:
+    post:
+      tags:
+        - Admin Course Topics
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Computer & software
+      responses:
+        '201':
+          description: Created Topic
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseTopic'
+    get:
+      tags:
+        - Admin Course Topics
+        
+      responses:
+        '200':
+          description: List of Topics
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  type: object
+                  properties:
+                    id: 
+                      type: integer
+                      example: 2
+                    name:
+                      type: string
+                      example: Critical thinking
+                    created:
+                      type: string
+                      example: time stamp
+        
+  /admin/courses/topics/{topicId}/:
+    parameters:
+    - name: topicId
+      in: path
+      schema:
+        type:
+          integer
+      description: Course Topic Id
+      required: true
+
+    get:
+      tags:
+        - Admin Course Topics
+      responses:
+        '200':
+          description: Topic
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseTopic'
+          
+    put:
+      tags:
+        - Admin Course Topics
+      requestBody:
+        required: true
+        content:
+           application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Computer & software
+      responses:
+        '200':
+          description: Topic
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseTopic'
+    
+    delete:
+      tags:
+        - Admin Course Topics
+      responses:
+        '200':
+          description: Topic Deleted
+          
+  /admin/file/:
+    post:
+      tags:
+        - Admin Files API
+      requestBody:
+        required: true
+        content:
+           multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: File uploaded
+  
+  /courses/:
+    get:
+      tags:
+        - Courses
+      summary: Returns a list of courses
+
+      responses:
+        '200':
+          description:  List of courses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: DB id used by service
+                    courseNum:
+                      type: string
+                      description: used to identify courses
+                      example: PT001
+                    title:
+                      type: string
+                      description: Title of the course
+                      example: Excel for Public Safety
+                    shortDesc:
+                      type: string
+                      description: Short Description - used when displaying all courses
+                      example: This course provides practical application experience for law enforcement personnel working with MICROSOFT EXCEL®.  In a primarily hands-on environment, personnel are guided through a series of examples to better learn how to effectively leverage Excel for law enforcement and public safety.  A computer with MS Excel 2013 or higher is required.
+                    isNew:
+                      description: Used to diplay NEW marker for visitors
+                      type: boolean
+                      default: true
+                    topic:
+                      description: Topics this course falls under
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 2
+                          name:
+                            type: string
+                            example: Computer & Internet
+                    
+  /courses/{courseId}/:
+    parameters:
+      - name: courseId
+        in: path
+        schema:
+          type:
+            integer
+        description: course Id
+        required: true
+
+    get:
+      tags:
+        - Courses
+      summary: Get a course
+      description: ""
+      operationId: getCourseById
+
+      responses:
+        '200':
+          description: A course object
+          content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: DB id used by service
+                    courseNum:
+                      type: string
+                      description: used to identify courses
+                      example: PT001
+                    title:
+                      type: string
+                      description: Title of the course
+                      example: Excel for Public Safety
+                    subTitle:
+                      type: string
+                      description:  Sub title of course
+                      example: Harnessing the power of Microsoft Excel® to better manage data & improve investigations.
+                    shortDesc:
+                      type: string
+                      description: Short Description - used when displaying all courses
+                      example: This course provides practical application experience for law enforcement personnel working with MICROSOFT EXCEL®.  In a primarily hands-on environment, personnel are guided through a series of examples to better learn how to effectively leverage Excel for law enforcement and public safety.  A computer with MS Excel 2013 or higher is required.
+                    description:
+                      type: array
+                      description: Overview
+                      items:
+                        type: string
+                      example: [
+                        "Microsoft Excel® for Public Safety™ is designed to help public safety personnel best utilize Microsoft Excel ® to successfully manage law enforcement specific data. Whether it is case specific data (e.g. telephone tolls, financials) or agency-wide data (e.g. arrest stats, fugitive lists, calls for service), it can be analyzed with just a few clicks using this powerful tool!",
+                        "The course builds a foundation in Access around several basic building blocks: Introduction to the Access, It’s comparison to Microsoft Excel, Data Basics, Connecting to Data sets, ODBC (Open Database Connectivity), Tables and Queries, SQL and RDBMS (relational database management systems), Reporting, and the Effective Presentation of Findings.  By the end of the course, students will be confident in their ability to access, manage and query data sets for the purposes of criminal investigations and overall agency benefits."
+                        ]
+                    targetAudience:
+                      description: Who can attend the course
+                      type: string
+                      example: "This course is intended for law enforcement personnel, which includes: any sworn officer, support staff, administrative personnel, Supervisors and Management. Attendees need only a basic understanding of computers and Excel®. No technical or analytical background is required."
+                    prerequisites:
+                      description: Material required to attend 
+                      type: string
+                      example: Students should bring a laptop with Microsoft Excel (version 2003 or higher). Additional materials (data sets) will be provided to students.
+                    isNew:
+                      description: Used to diplay NEW marker for visitors
+                      type: boolean
+                      default: true
+                    days:
+                      description: Duration of course
+                      type: integer
+                      example: 2
+                    agenda:
+                      description: Agenda for the number of days
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          day:
+                            type: integer
+                          value:
+                            type: array
+                            items:
+                              type: string
+                        example:
+                          day: 1
+                          value: [
+                              "Uses in Law Enforcement - Telephone tolls; Financial analyses; Agency stats",
+                              "Navigation & Manipulation - Rows, columns, cells, ranges, worksheets"
+                            ]
+                    
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Course not found
+ 
+  /courses/tracks/:
+    get:
+      tags:
+        - Courses
+      summary: Returns a list of Certification Tracks
+
+      responses:
+        '200':
+          description:  List of certification tracks
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 4
+                  title:
+                    type: string
+                    example: Analytics and Intelligence
+                  shortName:
+                    type: string
+                    example: AAI
+                  logo:
+                    type: integer
+                    description: id of uploaded image file
+                    example: 2
+                  numCourses:
+                    type: integer
+                    example: 5
+
+  /courses/tracks/{trackId}/:
+    parameters:
+      - name: trackId
+        in: path
+        schema:
+          type:
+            integer
+        description: Certification Track Id
+        required: true
+
+    get:
+      tags:
+        - Courses
+      summary: Get a Certification Track
+
+      responses:
+        '200':
+          description: A certification track object
+          content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 4
+                    title:
+                      type: string
+                      example: Analytics and Intelligence
+                    shortName:
+                      type: string
+                      example: AAI
+                    logo:
+                      type: integer
+                      description: id of uploaded image file
+                      example: 2
+                    what:
+                      type: string
+                      example: "AAI certification is nationally recognized as the standard of achievement for personnel who provide analytical and intelligence support for law enforcement departments and agencies. Law enforcement departments need personnel who possess the expertise to provide criminal and statistical analysis in: cell phone data, cell tower/site mapping, and the general presentation of statistical, digital, and computer related evidence to decision makers and in court. The skills that AAI certification evaluates are the building blocks of success in the field."
+                    why:
+                      type: string
+                      example: "In the post–terrorism environment personnel tasked with analyzing national security information for threats increasingly worked for state and local law enforcement.  Agencies first accessed these professionals through federal grants and fusion centers, but the demand for intelligence analysis has outpaced capacity in many areas.  To better support law enforcement’s needs, POLICE TECHNICAL began providing training in analytical techniques.  These original training courses created the foundation of the national AAI Certification offered today."
+                    who:
+                      type: array
+                      items:
+                        type: string
+                      example: [
+                        "All sworn law enforcement personnel: to apply the best practices to software packages, improving every aspect of their jobs.",
+                        "Intelligence officers and crime analysts: to provide them with techniques to speed up analysis and document development,  enhancing their ability to present cases internally and in court.",
+                        "Training personnel: to assist with developing instructional materials, supporting documents for certification and accreditation, and improving organization of required annual training and supplemental in-service training.",
+                        "Tactical personnel: to learn new capabilities that support intelligence gathering, warrant documentation, raid planning and development, mission briefs/debriefs, and presentations for internal use and in court."
+                      ]
+                    benefits:
+                      type: array
+                      items:
+                        type: string
+                      example: [
+                        "Nationally recognized mark of excellence in investigations",
+                        "Validating knowledge of  common desktops applications",
+                        "Recognition of work and educational experience, providing you with increased credibility the workplace and in courtroom.",
+                        "Increased value to peers, management, agency, and community"
+                      ]
+                    how:
+                      type: string
+                      example: "To achieve AAI Certification candidates must successfully complete the primary course, three supporting core courses, and an one elective course."
+                    requirements:
+                      type: array
+                      items:
+                        type: string
+                      example: [
+                        "Certification tracks are comprised of 5 POLICE TECHNICAL classes, totaling 80 hours of training",
+                        "Courses may be taken in any order, within 2 years of the first class",
+                        "Candidates must achieve 80% or higher on the post-course examination",
+                        "Candidates submit a written request and course documentation for Certification Award"
+                      ]
+                    maintainance:
+                      type: string
+                      example: "Certifications may be renewed annually after the initial 2-year period if the holders take a 16-hour course from the original certification track series. They must do this within their second year of being awarded certification. Certifications may be renewed annually, indefinitely. Certifications that have lapsed may be renewed on an individually based committee review. There is currently no additional cost for certification (beyond that of the initial training).  There is no cost for testing or renewal."
+                    numCourses:
+                      type: integer
+                      example: 5
+                    requiredCourse:
+                      type: array
+                      items: 
+                        type: object
+                        properties:
+                          id: 
+                            type: integer
+                            example: 10
+                          title:
+                            type: string
+                            example: Access for public Safety
+                    optionalCourses:
+                      type: array
+                      items: 
+                        type: object
+                        properties:
+                          id: 
+                            type: integer
+                            example: 2
+                          action:
+                            type: string
+                            example: Bitcoin and Cryptocurrency
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Certification track not found 
+  /admin/courses/:
+    get:
+      tags:
+        - Admin Courses
+      summary: Returns a list of courses
+      description: ""
+      responses:
+        '200':
+          description:  List of courses
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/AdminCoursesList'
+
+    post:
+      tags:
+        - Admin Courses
+      summary: Create a new Course
+      description: ""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminCourseRequest'
+              
+      responses:
+        '201':
+          description: A Course Object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminCourseResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+  
+  /admin/courses/{courseId}:
+    parameters:
+      - name: courseId
+        in: path
+        schema:
+          type: integer
+        description: course ID
+        required: true
+
+    get:
+      tags:
+        - Admin Courses
+      summary: Get a course
+      description: ""
+
+      responses:
+        '200':
+          description: A course object
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/AdminCourseResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Course not found
+          
+    delete:
+      tags:
+        - Admin Courses
+      summary: Delete a course
+      description: ""
+      operationId: DeleteCourseById
+      
+      responses:
+        '200':
+          description: Course Deleted
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Course not found
+          
+    put:
+      tags:
+        - Admin Courses
+      summary: Update a course
+      description: ""
+      operationId: updateCourseById
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminCourseRequest'
+    
+      responses:
+        '200':
+          description: Updated course object
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/AdminCourseResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Course not found
+          
+  /admin/courses/tracks/:
+    get:
+      tags:
+        - Admin Tracks
+      summary: Returns a list of certification tracks
+
+      responses:
+        '200':
+          description:  List of certification tracks
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 2
+                    title:
+                      type: string
+                      example: Analytics and Intelligence
+                    shortName:
+                      type: string
+                      example: AAI
+                    numCourses:
+                      type: integer
+                      example: 5
+                    isActive:
+                      type: boolean
+                      default: false
+                    created:
+                      type: string
+                      
+        
+    post:
+      tags:
+        - Admin Tracks
+      summary: Create a new Certification track
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrackRequest'
+
+      responses:
+        '201':
+          description: A Certification track Object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrackResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+  
+  /admin/courses/tracks/{trackId}:
+    parameters:
+      - name: trackId
+        in: path
+        schema:
+          type: integer
+        description: certification track Id
+        required: true
+
+    get:
+      tags:
+        - Admin Tracks
+      summary: Get a certification track
+
+      responses:
+        '200':
+          description: A certification track object
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/TrackResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Certification track not found
+          
+    delete:
+      tags:
+        - Admin Tracks
+      summary: Delete a certification track
+
+      responses:
+        '200':
+          description: Certification track Deleted
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Certification track not found
+          
+    put:
+      tags:
+        - Admin Tracks
+      summary: Update a certification track
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrackRequest'
+
+      responses:
+        '200':
+          description: Updated course object
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/TrackResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Certification track not found
+        
+components:
+  schemas:
+    TrackRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Analytics and Intelligence
+        shortName:
+          type: string
+          example: AAI
+        logo:
+          type: integer
+          description: id of uploaded image file
+          example: 2
+        what:
+          type: string
+          example: "AAI certification is nationally recognized as the standard of achievement for personnel who provide analytical and intelligence support for law enforcement departments and agencies. Law enforcement departments need personnel who possess the expertise to provide criminal and statistical analysis in: cell phone data, cell tower/site mapping, and the general presentation of statistical, digital, and computer related evidence to decision makers and in court. The skills that AAI certification evaluates are the building blocks of success in the field."
+        why:
+          type: string
+          example: "In the post–terrorism environment personnel tasked with analyzing national security information for threats increasingly worked for state and local law enforcement.  Agencies first accessed these professionals through federal grants and fusion centers, but the demand for intelligence analysis has outpaced capacity in many areas.  To better support law enforcement’s needs, POLICE TECHNICAL began providing training in analytical techniques.  These original training courses created the foundation of the national AAI Certification offered today."
+        who:
+          type: array
+          items:
+            type: string
+          example: [
+            "All sworn law enforcement personnel: to apply the best practices to software packages, improving every aspect of their jobs.",
+            "Intelligence officers and crime analysts: to provide them with techniques to speed up analysis and document development,  enhancing their ability to present cases internally and in court.",
+            "Training personnel: to assist with developing instructional materials, supporting documents for certification and accreditation, and improving organization of required annual training and supplemental in-service training.",
+            "Tactical personnel: to learn new capabilities that support intelligence gathering, warrant documentation, raid planning and development, mission briefs/debriefs, and presentations for internal use and in court."
+          ]
+        benefits:
+          type: array
+          items:
+            type: string
+          example: [
+            "Nationally recognized mark of excellence in investigations",
+            "Validating knowledge of  common desktops applications",
+            "Recognition of work and educational experience, providing you with increased credibility the workplace and in courtroom.",
+            "Increased value to peers, management, agency, and community"
+          ]
+        how:
+          type: string
+          example: "To achieve AAI Certification candidates must successfully complete the primary course, three supporting core courses, and an one elective course."
+        requirements:
+          type: array
+          items:
+            type: string
+          example: [
+            "Certification tracks are comprised of 5 POLICE TECHNICAL classes, totaling 80 hours of training",
+            "Courses may be taken in any order, within 2 years of the first class",
+            "Candidates must achieve 80% or higher on the post-course examination",
+            "Candidates submit a written request and course documentation for Certification Award"
+          ]
+        maintainance:
+          type: string
+          example: "Certifications may be renewed annually after the initial 2-year period if the holders take a 16-hour course from the original certification track series. They must do this within their second year of being awarded certification. Certifications may be renewed annually, indefinitely. Certifications that have lapsed may be renewed on an individually based committee review. There is currently no additional cost for certification (beyond that of the initial training).  There is no cost for testing or renewal."
+        numCourses:
+          type: integer
+          example: 5
+        isActive:
+          type: boolean
+          default: false
+        requiredCourse:
+          type: array
+          items: 
+            type: object
+            properties:
+              id: 
+                type: integer
+                example: 10
+              action:
+                type: string
+                enum: [ADD, DELETE]
+                example: ADD
+        optionalCourses:
+          type: array
+          items: 
+            type: object
+            properties:
+              id: 
+                type: integer
+                example: 2
+              action:
+                type: string
+                enum: [ADD, DELETE]
+                example: ADD
+                
+    TrackResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 4
+        title:
+          type: string
+          example: Analytics and Intelligence
+        shortName:
+          type: string
+          example: AAI
+        logo:
+          type: integer
+          description: id of uploaded image file
+          example: 2
+        what:
+          type: string
+          example: "AAI certification is nationally recognized as the standard of achievement for personnel who provide analytical and intelligence support for law enforcement departments and agencies. Law enforcement departments need personnel who possess the expertise to provide criminal and statistical analysis in: cell phone data, cell tower/site mapping, and the general presentation of statistical, digital, and computer related evidence to decision makers and in court. The skills that AAI certification evaluates are the building blocks of success in the field."
+        why:
+          type: string
+          example: "In the post–terrorism environment personnel tasked with analyzing national security information for threats increasingly worked for state and local law enforcement.  Agencies first accessed these professionals through federal grants and fusion centers, but the demand for intelligence analysis has outpaced capacity in many areas.  To better support law enforcement’s needs, POLICE TECHNICAL began providing training in analytical techniques.  These original training courses created the foundation of the national AAI Certification offered today."
+        who:
+          type: array
+          items:
+            type: string
+          example: [
+            "All sworn law enforcement personnel: to apply the best practices to software packages, improving every aspect of their jobs.",
+            "Intelligence officers and crime analysts: to provide them with techniques to speed up analysis and document development,  enhancing their ability to present cases internally and in court.",
+            "Training personnel: to assist with developing instructional materials, supporting documents for certification and accreditation, and improving organization of required annual training and supplemental in-service training.",
+            "Tactical personnel: to learn new capabilities that support intelligence gathering, warrant documentation, raid planning and development, mission briefs/debriefs, and presentations for internal use and in court."
+          ]
+        benefits:
+          type: array
+          items:
+            type: string
+          example: [
+            "Nationally recognized mark of excellence in investigations",
+            "Validating knowledge of  common desktops applications",
+            "Recognition of work and educational experience, providing you with increased credibility the workplace and in courtroom.",
+            "Increased value to peers, management, agency, and community"
+          ]
+        how:
+          type: string
+          example: "To achieve AAI Certification candidates must successfully complete the primary course, three supporting core courses, and an one elective course."
+        requirements:
+          type: array
+          items:
+            type: string
+          example: [
+            "Certification tracks are comprised of 5 POLICE TECHNICAL classes, totaling 80 hours of training",
+            "Courses may be taken in any order, within 2 years of the first class",
+            "Candidates must achieve 80% or higher on the post-course examination",
+            "Candidates submit a written request and course documentation for Certification Award"
+          ]
+        maintainance:
+          type: string
+          example: "Certifications may be renewed annually after the initial 2-year period if the holders take a 16-hour course from the original certification track series. They must do this within their second year of being awarded certification. Certifications may be renewed annually, indefinitely. Certifications that have lapsed may be renewed on an individually based committee review. There is currently no additional cost for certification (beyond that of the initial training).  There is no cost for testing or renewal."
+        numCourses:
+          type: integer
+          example: 5
+        isActive:
+          type: boolean
+          default: false
+        requiredCourse:
+          type: array
+          items: 
+            type: object
+            properties:
+              id: 
+                type: integer
+                example: 10
+              title:
+                type: string
+                example: Access for public Safety
+        optionalCourses:
+          type: array
+          items: 
+            type: object
+            properties:
+              id: 
+                type: integer
+                example: 2
+              action:
+                type: string
+                example: Bitcoin and Cryptocurrency
+        isDeleted:
+          type: boolean
+          default: False
+        created:
+          type: string
+          example: created Date
+        createdBy:
+          type: object
+          properties:
+            id: 
+              type: integer
+              example: 1
+            firstName:
+              type: string
+              example: John
+            lastName: 
+              type: string
+              example: Doe
+        history:
+          type: object
+          
+                
+    CourseTopic:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2
+        name:
+          type: string
+          example: Computer & software
+        isDeleted:
+          type: boolean
+          example: false
+        created:
+          type: string
+          example: created Date
+        createdBy:
+          type: object
+          properties:
+            id: 
+              type: integer
+              example: 1
+            firstName:
+              type: string
+              example: John
+            lastName: 
+              type: string
+              example: Doe
+        history:
+          type: object
+              
+    AdminCourseRequest:
+      type: object
+      properties:
+        courseNum:
+          type: string
+          description: used to identify courses
+          example: PT001
+        title:
+          type: string
+          description: Title of the course
+          example: Excel for Public Safety
+        subTitle:
+          type: string
+          description:  Sub title of course
+          example: Harnessing the power of Microsoft Excel® to better manage data & improve investigations.
+        shortDesc:
+          type: string
+          description: Short Description - used when displaying all courses
+          example: This course provides practical application experience for law enforcement personnel working with MICROSOFT EXCEL®.  In a primarily hands-on environment, personnel are guided through a series of examples to better learn how to effectively leverage Excel for law enforcement and public safety.  A computer with MS Excel 2013 or higher is required.
+        description:
+          type: array
+          description: Overview
+          items:
+            type: string
+          example: [
+            "Microsoft Excel® for Public Safety™ is designed to help public safety personnel best utilize Microsoft Excel ® to successfully manage law enforcement specific data. Whether it is case specific data (e.g. telephone tolls, financials) or agency-wide data (e.g. arrest stats, fugitive lists, calls for service), it can be analyzed with just a few clicks using this powerful tool!",
+            "The course builds a foundation in Access around several basic building blocks: Introduction to the Access, It’s comparison to Microsoft Excel, Data Basics, Connecting to Data sets, ODBC (Open Database Connectivity), Tables and Queries, SQL and RDBMS (relational database management systems), Reporting, and the Effective Presentation of Findings.  By the end of the course, students will be confident in their ability to access, manage and query data sets for the purposes of criminal investigations and overall agency benefits."
+            ]
+        targetAudience:
+          description: Who can attend the course
+          type: string
+          example: "This course is intended for law enforcement personnel, which includes: any sworn officer, support staff, administrative personnel, Supervisors and Management. Attendees need only a basic understanding of computers and Excel®. No technical or analytical background is required."
+        prerequisites:
+          description: Material required to attend 
+          type: string
+          example: Students should bring a laptop with Microsoft Excel (version 2003 or higher). Additional materials (data sets) will be provided to students.
+        isActive:
+          description: Used to display course under all courses for visitors
+          type: boolean
+          default: false
+        isNew:
+          description: Used to diplay NEW marker for visitors
+          type: boolean
+          default: true
+        days:
+          description: Duration of course
+          type: integer
+          example: 2
+        agenda:
+          description: Agenda for the number of days
+          type: array
+          items:
+            type: object
+            properties:
+              day:
+                type: integer
+                example: 1
+              value:
+                type: array
+                items:
+                  type: string
+            example:
+              day: 1
+              value: [
+                  "Uses in Law Enforcement - Telephone tolls; Financial analyses; Agency stats",
+                  "Navigation & Manipulation - Rows, columns, cells, ranges, worksheets"
+                ]
+        topic:
+          description: Topics this course falls under
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+                enum: [ADD, DELETE]
+                example: ADD
+              id:
+                type: integer
+                example: 3
+        material:
+          description: Uploaded course material
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+                enum: [ADD, DELETE]
+                example: ADD
+              id:
+                type: integer
+                example: 2
+
+    AdminCourseResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: DB id used by service
+        courseNum:
+          type: string
+          description: used to identify courses
+          example: PT001
+        title:
+          type: string
+          description: Title of the course
+          example: Excel for Public Safety
+        subTitle:
+          type: string
+          description:  Sub title of course
+          example: Harnessing the power of Microsoft Excel® to better manage data & improve investigations.
+        shortDesc:
+          type: string
+          description: Short Description - used when displaying all courses
+          example: This course provides practical application experience for law enforcement personnel working with MICROSOFT EXCEL®.  In a primarily hands-on environment, personnel are guided through a series of examples to better learn how to effectively leverage Excel for law enforcement and public safety.  A computer with MS Excel 2013 or higher is required.
+        description:
+          type: array
+          description: Overview
+          items:
+            type: string
+          example: [
+            "Microsoft Excel® for Public Safety™ is designed to help public safety personnel best utilize Microsoft Excel ® to successfully manage law enforcement specific data. Whether it is case specific data (e.g. telephone tolls, financials) or agency-wide data (e.g. arrest stats, fugitive lists, calls for service), it can be analyzed with just a few clicks using this powerful tool!",
+            "The course builds a foundation in Access around several basic building blocks: Introduction to the Access, It’s comparison to Microsoft Excel, Data Basics, Connecting to Data sets, ODBC (Open Database Connectivity), Tables and Queries, SQL and RDBMS (relational database management systems), Reporting, and the Effective Presentation of Findings.  By the end of the course, students will be confident in their ability to access, manage and query data sets for the purposes of criminal investigations and overall agency benefits."
+            ]
+        targetAudience:
+          description: Who can attend the course
+          type: string
+          example: "This course is intended for law enforcement personnel, which includes: any sworn officer, support staff, administrative personnel, Supervisors and Management. Attendees need only a basic understanding of computers and Excel®. No technical or analytical background is required."
+        prerequisites:
+          description: Material required to attend 
+          type: string
+          example: Students should bring a laptop with Microsoft Excel (version 2003 or higher). Additional materials (data sets) will be provided to students.
+        isActive:
+          description: Used to display course under all courses for visitors
+          type: boolean
+          default: false
+        isNew:
+          description: Used to diplay NEW marker for visitors
+          type: boolean
+          default: true
+        days:
+          description: Duration of course
+          type: integer
+          example: 2
+        agenda:
+          description: Agenda for the number of days
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              day:
+                type: integer
+              value:
+                type: array
+                items:
+                  type: string
+            example:
+              id: 2
+              day: 1
+              value: [
+                  "Uses in Law Enforcement - Telephone tolls; Financial analyses; Agency stats",
+                  "Navigation & Manipulation - Rows, columns, cells, ranges, worksheets"
+                ]
+        topic:
+          description: Topics this course falls under
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 2
+              name:
+                type: string
+                example: Computer & Internet
+        material:
+          description: Uploaded course material
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 2
+              name:
+                type: string
+                example: Sample file name
+              path:
+                type: string
+                example: /courses/static/materials/
+              url:
+                type: string
+                example: https://google.com
+        created:
+          description: time stamp of course creation
+          type: string
+        createdBy:
+          description: User details of who created course
+          type: object
+          properties:
+            id:
+              description: Id of created by user
+              type: integer
+              example: 3
+            firstName:
+              description: first name of the created by user
+              type: string
+              example: John
+            lastName:
+              description: last name of the created by user
+              type: string
+              example: Doe
+        history:
+          description: history
+          type: array
+          items:
+            type: object
+    AllCourseResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: DB table Id
+        courseNum:
+          type: string
+          description: used to identify courses
+          example: PT001
+        title:
+          type: string
+          description: Title of the course
+          example: Excel for Public Safety
+        shortDesc:
+          type: string
+          description: Short Description - used when displaying all courses
+        isNew:
+          description: Used to diplay NEW marker for visitors
+          type: boolean
+          default: true
+        topic:
+          description: Topic category for course
+          type: string
+        tracks:
+          description: List of certification tracks this course falls under
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: certification track db ID
+              title:
+                type: string
+                description: certification Title
+              shortName:
+                type: string
+                description: abbreviation of the title
+                example: AAI
+          
+    AdminAllCourseResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: DB table Id
+        courseNum:
+          type: string
+          description: used to identify courses
+          example: PT001
+        title:
+          type: string
+          description: Title of the course
+          example: Excel for Public Safety
+        isActive:
+          description: Used to display course under all courses for visitors
+          type: boolean
+          default: false
+        isNew:
+          description: Used to diplay NEW marker for visitors
+          type: boolean
+          default: true
+        created:
+          description: time stamp of course creation
+          type: string
+        createdBy:
+          description: User details of who created course
+          type: object
+          properties:
+            id:
+              description: Id of created by user
+              type: integer
+            firstName:
+              description: first name of the created by user
+              type: string
+            lastName:
+              description: last name of the created by user
+              type: string
+      
+    
+    AdminCoursesList:
+      type: array
+      items:
+        oneOf:
+          - $ref: '#/components/schemas/AdminAllCourseResponse'

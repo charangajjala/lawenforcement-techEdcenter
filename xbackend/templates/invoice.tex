@@ -1,0 +1,95 @@
+{% raw %}
+\documentclass[a4paper]{article}
+
+\usepackage{longtable}
+\usepackage{graphics}
+\usepackage{url}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage[margin=0.5in]{geometry}
+\usepackage[table]{xcolor}
+
+\definecolor{linkwater}{cmyk}{0.15,0.07,0.0,0.05}
+\definecolor{alto}{cmyk}{0.0,0.0,0.0,0.13}
+
+\pagestyle{empty}
+
+\begin{document}
+\begin{longtable}[]{@{}ll@{}}
+  \toprule
+  \endhead
+  \begin{minipage}[t]{0.47\columnwidth}\raggedright
+  \ \strut
+  \end{minipage} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+  {INVOICE} No. \protect\hypertarget{inv_num}{}{invoiceInfo}\\
+  \protect\hypertarget{sentdate}{}{date("m/d/Y",invoiceInfo}\\
+  \emph{paid on
+  \protect\hypertarget{paiddate}{date("m/d/Y",invoiceInfo)} \\by cc: invoiceInfo}\strut
+  \end{minipage} \tabularnewline
+  \fcolorbox{linkwater}{linkwater}{
+  \begin{minipage}[t]{0.47\columnwidth}\raggedright
+  info"name"\\
+  info"agency"\\
+  info"address".'\\
+  info"city", info"state"
+  info"zip"\\
+  info"email"\\
+  info"phone"\strut
+  \end{minipage}} & \begin{minipage}[t]{0.47\columnwidth}\raggedright
+  \ \strut
+  \end{minipage}\tabularnewline
+  \bottomrule
+  \end{longtable}
+  
+  \begin{longtable}[]{@{}llll@{}}
+  \toprule
+  \begin{minipage}[b]{0.22\columnwidth}\raggedright
+  \textbf{Description}\strut
+  \end{minipage} & \begin{minipage}[b]{0.22\columnwidth}\raggedright
+  \textbf{Qty.}\strut
+  \end{minipage} & \begin{minipage}[b]{0.22\columnwidth}\raggedright
+  \textbf{Price}\strut
+  \end{minipage} & \begin{minipage}[b]{0.22\columnwidth}\raggedright
+  \textbf{Subtotal}\strut
+  \end{minipage}\tabularnewline
+  \midrule
+  \endhead
+  \begin{minipage}[t]{0.22\columnwidth}\raggedright
+  \textbf{Attendees:}\\
+  studentInfofirst\_name" studentInfo"last\_name"
+  \textbf{Today}\\
+  ~\\
+  \textbf{Classes:}\strut
+  \end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+  invoiceInfo"col2"\strut
+  \end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+  invoiceInfo"col3"\strut
+  \end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+  invoiceInfo"col4"\strut
+  \end{minipage}\tabularnewline
+  \begin{minipage}[t]{0.22\columnwidth}\raggedright
+  \strut
+  \end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+  \strut
+  \end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+  \textbf{Grand Total:}\strut
+  \end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+  \textbf{USD} invoiceInfo"total"\strut
+  \end{minipage}\tabularnewline
+  \bottomrule
+  \end{longtable}
+  
+  {PAYMENT TERMS} Due upon receipt {W-9} \href{/custom/w-9.pdf}{W-9 2018}
+  
+  Mail payment and a copy of this invoice to:\\
+  
+  Police Technical\\ \\ \\
+  
+  Any questions contact 812.232.4200 or
+  \href{mailto:info@policetechnical.com}{\nolinkurl{info@policetechnical.com}}
+  
+  
+  \enlargethispage{\baselineskip}
+\end{document}
+{% endraw %}

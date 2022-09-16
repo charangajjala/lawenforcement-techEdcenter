@@ -1,0 +1,616 @@
+openapi: 3.0.0
+
+info:
+  title: X Backend Service
+  description: ""
+  version: 1.0.0
+
+tags:
+- name: Admin Instructors
+  description: Admin Instructors API
+- name: Instructors
+  description: Instructor API
+
+paths:
+
+  /instructors/applicants/:
+    post:
+      tags:
+        - Instructor Applicants
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicantRequest'
+      responses:
+        '201':
+          description: applicant created
+
+    put:
+      tags:
+        - Instructor Applicants
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicantRequest'
+              
+      responses:
+        '200':
+          description: edit applicant profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicantResponse'
+                
+    get:
+      tags:
+        - Instructor Applicants
+        
+      responses:
+        '200':
+          description: get applicant profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicantResponse'
+          
+              
+  /admin/instructors/applicants/{applicantId}:
+    parameters:
+      - name: applicantId
+        in: path
+        schema:
+          type:
+            integer
+        description: Applicant id
+        required: true
+    get:
+      tags:
+        - Admin Instructor Applicants
+    
+      responses:
+        '200':
+          description: Get an applicant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApplicantResponse'
+    put:
+      tags:
+        - Admin Instructor Applicants
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminApplicantRequest'
+      responses:
+        '200':
+          description: Edit an applicant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApplicantResponse'
+                
+    delete:
+      tags:
+        - Admin Instructor Applicants
+      
+      responses:
+        '200':
+          description: Delete an applicant
+
+  /admin/instructors/applicants/:
+    get:
+      tags:
+        - Admin Instructor Applicants
+      
+      responses:
+        '200':
+          description: Get applicants list 
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    firstName:
+                      type: string
+                    lastName:
+                      type: string
+                    email:
+                      type: string
+                    phone:
+                      type: string
+                    status:
+                      type: string
+                      enum: [RECEIVED, REVIEW, DEFER, SHORTLIST, REJECT, ONBOARDING, HIRED]
+
+  /instructors/:
+    get:
+      tags:
+        - Instructors
+        
+      responses:
+        '200':
+          description: get instructor profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstructorResponse'
+                
+    put:
+      tags:
+        - Instructors
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InstructorRequest'
+      
+      responses:
+        '200':
+          description: edit instructor profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstructorResponse'
+
+  /admin/instructors/:
+    post:
+      tags:
+        - Admin Instructors
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminInstructorRequest'
+              
+      responses:
+        '201':
+          description: Created instructor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminInstructorResponse'
+                
+    get:
+      tags:
+        - Admin Instructors
+        
+      responses:
+        '200':
+          description: list of instructors
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  firstName:
+                    type: string
+                  lastName:
+                    type: string
+                  email:
+                    type: string
+                  phone:
+                    type: string
+                  isActive:
+                    type: boolean
+                    
+  /admin/instructors/{instructorId}/:
+    parameters:
+      - name: instructorId
+        in: path
+        schema:
+          type:
+            integer
+        description: user id
+        required: true
+        
+    get:
+      tags:
+        - Admin Instructors
+        
+      responses:
+        '200':
+          description: Get an instructor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminInstructorResponse'
+                
+    put:
+      tags:
+        - Admin Instructors
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminInstructorRequest'
+              
+      responses:
+        '200':
+          description: edit instructor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminInstructorResponse'
+                
+    delete:
+      tags:
+        - Admin Instructors
+        
+      responses:
+        '200':
+          description: Instructor deleted
+                
+components:
+  schemas:
+    Address:
+      type: object
+      required: [address1, city, state, zip]
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
+    Contact:
+      type: object
+      required: [name, email, phone]
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        email2:
+          type: string
+        phone2:
+          type: string
+    AdminInstructorRequest:
+      type: object
+      required: [userId, dob, ssn, bio, agencyName, agencyAddress, agencyContact, emergencyContact]
+      properties:
+        userId:
+          type: integer
+        image:
+          type: integer
+          description: url of the uploaded image
+        dob:
+          type: string
+        ssn:
+          type: string
+        bio:
+          type: string
+        agencyName:
+          type: string
+        agencyAddress:
+          $ref: '#/components/schemas/Address'
+        agencyContact:
+          $ref: '#/components/schemas/Contact'
+        emergencyContact:
+          $ref: '#/components/schemas/Contact'
+        docs:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+                enum: [ADD, DELETE]
+                example: ADD
+              id:
+                type: integer
+                example: 2
+        isActive:
+          type: boolean
+          default: false
+        retiredDate:
+          type: string
+        closestAirports:
+          type: string
+        preferredAirports:
+          type: string
+        travelNotes:
+          type: string
+        adminNotes:
+          type: string
+          
+    AdminInstructorResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        image:
+          type: integer
+          description: id of the uploaded image
+        dob:
+          type: string
+        ssn:
+          type: string
+        bio:
+          type: string
+        agencyName:
+          type: string
+        agencyAddress:
+          $ref: '#/components/schemas/Address'
+        agencyContact:
+          $ref: '#/components/schemas/Contact'
+        emergencyContact:
+          $ref: '#/components/schemas/Contact'
+        docs:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 2
+              name:
+                type: string
+              url:
+                type: string
+        isActive:
+          type: boolean
+          default: false
+        retiredDate:
+          type: string
+        closestAirports:
+          type: string
+        preferredAirports:
+          type: string
+        travelNotes:
+          type: string
+        adminNotes:
+          type: string
+        isDeleted:
+          type: boolean
+        created:
+          type: string
+        createdBy:
+          type: object
+          properties:
+            id:
+              type: integer
+            firstName:
+              type: string
+            lastName:
+              type: string
+        history:
+          type: object
+    
+    InstructorRequest:
+      type: object
+      properties:
+        image:
+          type: integer
+          description: url of the uploaded image
+        dob:
+          type: string
+        ssn:
+          type: string
+        bio:
+          type: string
+        agencyName:
+          type: string
+        agencyAddress:
+          $ref: '#/components/schemas/Address'
+        agencyContact:
+          $ref: '#/components/schemas/Contact'
+        emergencyContact:
+          $ref: '#/components/schemas/Contact'
+        docs:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+                enum: [ADD, DELETE]
+                example: ADD
+              id:
+                type: integer
+                example: 2
+        retiredDate:
+          type: string
+        closestAirports:
+          type: string
+        preferredAirports:
+          type: string
+        travelNotes:
+          type: string
+        
+    InstructorResponse:
+      type: object
+      properties:
+        image:
+          type: string
+          description: url of the uploaded image
+        dob:
+          type: string
+        ssn:
+          type: string
+        bio:
+          type: string
+        agencyName:
+          type: string
+        agencyAddress:
+          $ref: '#/components/schemas/Address'
+        agencyContact:
+          $ref: '#/components/schemas/Contact'
+        emergencyContact:
+          $ref: '#/components/schemas/Contact'
+        docs:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 2
+              name:
+                type: string
+              url:
+                type: string
+
+        retiredDate:
+          type: string
+        closestAirports:
+          type: string
+        preferredAirports:
+          type: string
+        travelNotes:
+          type: string
+    AdminApplicantRequest:
+      type: object
+      properties:
+        userId:
+          type: integer
+        courses:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              action:
+                type: string
+                enum: [ADD, DELETE]
+                example: ADD
+        docs:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              action:
+                type: string
+                enum: [ADD, DELETE]
+                example: ADD
+        comments:
+          type: string
+        status:
+          type: string
+          enum: [RECEIVED, REVIEW, DEFER, SHORTLIST, REJECT, ONBOARDING, HIRED]
+        adminNotes:
+          type: string
+          
+    AdminApplicantResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        courses:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              title:
+                type: string
+        docs:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 2
+              name:
+                type: string
+              url:
+                type: string
+        comments:
+          type: string
+        status:
+          type: string
+          enum: [RECEIVED, REVIEW, DEFER, SHORTLIST, REJECT, ONBOARDING, HIRED]
+        adminNotes:
+          type: string
+          
+    ApplicantRequest:
+      type: object
+      required: [userId, courses]
+      properties:
+        userId:
+          type: integer
+        courses:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              action:
+                type: string
+                enum: [ADD, DELETE]
+                example: ADD
+        docs:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              action:
+                type: string
+                enum: [ADD, DELETE]
+                example: ADD
+        comments:
+          type: string
+
+    ApplicantResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        courses:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              title:
+                type: string
+        docs:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 2
+              name:
+                type: string
+              url:
+                type: string
+        comments:
+          type: string
+

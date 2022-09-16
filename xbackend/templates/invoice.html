@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <style>
+        div.invoice {
+            font-family:arial;
+            max-width:800px;
+            margin:0 auto;
+          }
+          div.invoice table {
+            width:100%;
+            border-collapse:collapse;
+          }
+          div.invoice td {
+            padding:5px;
+            font-size:12px;
+            vertical-align:top;
+          }
+          div.invoice th {
+            text-align:left;
+            padding:5px;
+          }
+          div.invoice img.inv_logo {
+            height:60px;
+            margin-bottom:5px;
+            float:left;
+          }
+          div.invoice span.title {
+            display:block;
+            font-size:large;
+            font-weight:400;
+          }
+          div.invoice div.inv_paid {
+            display:inline-block;
+            padding:10px;
+            font-size:28px;
+            font-weight:500;
+            background-color:#ff7878;
+            border:2px solid #ff4343;
+          }
+          div.btn {
+            display:inline-block;
+            padding:6px 12px;
+            margin-bottom:0;
+            font-size:14px;
+            font-weight:400;
+            line-height:1.42857143;
+            text-align:center;
+            white-space:nowrap;
+            vertical-align:middle;
+            -ms-touch-action:manipulation;
+            touch-action:manipulation;
+            cursor:pointer;
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            -ms-user-select:none;
+            user-select:none;
+            background-image:none;
+            border:1px solid transparent;
+            border-radius:4px;
+            margin-right:10px;
+          }
+          div.inv_button {
+            color:#ffffff;
+            background-color:#5bc0de;
+            border-color:#46b8da;
+          }
+          div.inv_button:hover {
+            color:#ffffff;
+            background-color:#31b0d5;
+            border-color:#269abc;
+          }
+          div.pay_button {
+            color:#ffffff;
+            background-color:#5cb85c;
+            border-color:#4cae4c;
+          }
+          div.pay_button:hover {
+            color:#ffffff;
+            background-color:#449d44;
+            border-color:#398439;
+          }
+          select, input[type="text"] {
+            display:block;
+            width:100%;
+            border:1px solid #eaeaea;
+            -webkit-border-radius:2px;
+            -moz-border-radius:2px;
+            border-radius:2px;
+            padding:0 10px;
+            line-height:24px;
+            height:34px;
+            -webkit-box-sizing:border-box;
+            -moz-box-sizing:border-box;
+            box-sizing:border-box;
+            -webkit-transition:all 0.3s;
+            transition:all 0.3s;
+          }
+          div.coc_error {
+            background-color:#FF4F5C;
+            -webkit-border-radius:5px;
+            -moz-border-radius:5px;
+            border-radius:5px;
+            color:#ffffff;
+            padding:35px;
+            margin-bottom:10px;
+          }
+          div.coc_error p {
+            margin:0;
+          }
+          div.coc_success {
+            background-color:#67DDAB;
+            -webkit-border-radius:5px;
+            -moz-border-radius:5px;
+            border-radius:5px;
+            color:#ffffff;
+            padding:35px;
+            margin-bottom:10px;
+          }
+          div.coc_success p {
+            margin:0;
+          }
+          h3 {
+            margin:0;
+          }
+          /* div.void_stamp {
+            -ms-transform: rotate(-14deg);
+            -webkit-transform: rotate(-14deg);
+            transform: rotate(-14deg);
+            position: absolute;
+            left: 35%;
+            top: 340px;
+            border: 8px solid red;
+            -webkit-border-radius: 15px;
+            -moz-border-radius: 15px;
+            border-radius: 15px;
+            font-size: 160px;
+            padding: 35px 70px;
+            color: red;
+            display: inline-block;
+          } */
+    </style>
+</head>
+<body>
+    <div class="invoice">
+        <table style="margin-bottom:5px;">
+            <tr>
+                <td style="border:none;"><img class="inv_logo" src="/invoice/invoice_logo.png" /></td>
+                <td style="border:none;">
+                    <div style="display:inline-block;text-align:right;">
+                        <span class="title">INVOICE</span> No. <span id="inv_num">{{ invoice.invoiceNum }}</span><br />
+                        {% if invoice.paid %}
+                            <span id="sentdate">{{ invoice.paidDate }}</span><br />
+                            <i>paid on <span id="paiddate">{{ invoice.paidOn }}</span> by cc: {{ invoice.card }} </i>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td id="head1" style="background-color:#cfe2f3;height:100px;width:70%;">
+                    {{ invoice.pmrContact.name }}<br />
+                    {{ invoice.pmrAgency }}<br />
+                    {{ invoice.pmrAddress.address1 }}<br />
+                    {% if invoice.pmrAddress.address2 %}
+                        {{ invoice.pmrAddress.address2 }}<br />
+                    {% endif %}
+                    {{ invoice.pmrAddress.city }}, {{ invoice.pmrAddress.state }} {{ invoice.pmrAddress.zip }}<br />
+                    {{ invoice.pmrContact.email }}<br />
+                    {{ invoice.pmrContact.phone }}
+                </td>
+                <td style="vertical-align:middle;text-align:right;background-color:#dddddd;">
+                    <img id="paidimg" style="height:80px;" src="../admin/images/paid.png" />
+                </td>
+            </tr>
+        </table>
+        <table style="margin-bottom:5px;">
+            <tr style="background-color:#428BCA;color:#dddddd;">
+                <th>Description</th>
+                <th>Qty.</th>
+                <th>Price</th>
+                <th>Subtotal</th>
+            </tr>
+            <tr style="height:480px;">
+                <td style="padding-bottom:110px;" id="col1">
+                    <strong>Attendees:</strong><br />
+                    {% for student in rosters %}
+                        {{ roster.student.user.firstName }} {{ roster.student.user.lastName }} - {{ roster.student.user.email }}<br /> 
+                    {% endfor %}
+                    {% comment %} <strong>Removed on date("m/d/Y",$rem_roster[$studentInfo["id"]])</strong><br /> {% endcomment %}
+                    <br />
+                    <strong>Classes:</strong>
+                    {% for roster in rosters %}
+                        {{ roster.cls.course.title }}<br />
+                        {{ roster.cls.startDate }} - {{ roster.cls.endDate }}<br />
+                        {% if roster.cls.deliveryType == 1 %}
+                            <p>Online</p><br />
+                        {% else %}
+                            <p>Offline</p><br />
+                        {% endif %}
+                    {% endfor %}
+
+                </td>
+                <td id="col2">{{ rosters|length }}</td>
+                <td id="col3">{{ invoice.price }}</td>
+                <td style="background-color:#eeeeee;" id="col4">{{ invoice.totalPrice }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td style="text-align:right;background-color:#eeeeee;">Grand Total:</td>
+                <td id="gtotal" style="background-color:#dddddd;">USD {{ invoice.totalPrice }}</td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td>
+                    <span class="title">PAYMENT TERMS</span>
+                    Due upon receipt
+                    <span class="title">W-9</span>
+                    <a target="_blank" href="/custom/w-9.pdf">W-9 2018</a>
+                </td>
+                <td>
+                    Please mail payment and a copy of this invoice to:<br />
+                    <p style="font-size:larger;font-weight:400;">Police Technical<br />
+                    647 Ohio Street<br />
+                    Terre Haute, Indiana 47807</p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="background-color:#428BCA;text-align:center;color:#ffffff;">
+                    Any questions contact 812.232.4200 or <a style="color:#ffffff;" href="mailto:info@policetechnical.com">info@policetechnical.com</a>
+                </td>
+            </tr>
+        </table>
+        <!-- <div class="void_stamp">VOID</div> -->
+    </div>
+
+</body>
+</html>

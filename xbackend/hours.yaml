@@ -1,0 +1,84 @@
+openapi: 3.0.0
+
+info:
+  title: X Backend Hours
+  description: ""
+  version: 1.0.0
+
+paths:
+
+  /admin/hours/:
+    post:
+      tags:
+        - Admin Hours
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                hours:
+                  type: number
+                type:
+                  type: string
+                  enum: [VACATION, UNPLANNED, HOLIDAY]
+
+      responses:
+        '201':
+          description: success
+
+    put:
+      tags:
+        - Admin Hours
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                hours:
+                  type: number
+                type:
+                  type: string
+                  enum: [VACATION, UNPLANNED, HOLIDAY]
+
+      responses:
+        '200':
+          description: success
+    get:
+    
+      parameters:
+        - name: month
+          in: query
+          schema:
+            type: integer
+        - name: year
+          in: query
+          schema:
+            type: integer
+      tags:
+        - Admin Hours
+        
+      responses:
+        '200':
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  type: object
+                  properties:
+                    date: 
+                      type: string
+                    hours:
+                      type: number
+                    type:
+                      type: string
+                      enum: [VACATION, UNPLANNED, HOLIDAY]

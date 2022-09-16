@@ -1,0 +1,206 @@
+{% raw %}
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+
+\documentclass[legalpaper,10pt]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\usepackage{siunitx}
+\usepackage[margin=0.5in,top=0.5in,bottom=0in]{geometry}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} 
+\else 
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} 
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{
+  \IfFileExists{parskip.sty}{
+    \usepackage{parskip}
+  }{
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} 
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={\VAR{cls.course.title}},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} 
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} 
+
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+
+
+
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} 
+\providecommand{\tightlist}{
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} 
+\ifLuaTeX
+  \usepackage{selnolig}  
+\fi
+
+\title{\VAR{cls.course.title}}
+\author{}
+\date{}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\maketitle
+
+\VAR{cls.course.title}\\
+\VAR{cls.course.shortDesc}\\
+
+\textbf{Course Details}
+
+\begin{longtable}[]{@{}llr@{}}
+\toprule
+\endhead
+Host: & \VAR{cls.host.name} & \$cert\_data{[}0{]} \\
+Location: & \VAR{cls.location.address.address1}  \VAR{cls.location.address.city},
+\VAR{cls.location.address.city} & \$cert\_data{[}1{]} \\
+Dates: & \VAR{cls.startDate.strftime('%d %b %Y')} to \VAR{cls.endDate.strftime('%d %b %Y')} , \VAR{cls.startTime.strftime('%H:%M %p')} - \VAR{cls.endTime.strftime('%H:%M %p')} & \$cert\_data{[}2{]} \\
+Fee: & \num{\VAR{cls.regularFee}}, \ 
+\num{\VAR{cls.lateFee}} (depending on registration date) &
+\$cert\_data{[}3{]} \\
+\bottomrule
+\end{longtable}
+
+\begin{center}
+\graphicspath{{C:/Users/jampu/Desktop/backend/xbackend/static/}}
+\href{https://www.policetechnical.com/register/?id='.$classInfo\%5B'id'\%5D.'}
+{\includegraphics{main2.png}}
+\end{center}
+
+\textbf{Course Highlights}\\
+\ This is the Description
+
+\textbf{Who Should Attend}\\
+\VAR{cls.course.targetAudience}
+
+\textbf{Material Requirements}\\
+Students should bring a laptop with access to the Internet. ~Personnel
+are encouraged to bring devices that are currenltlyb eing used.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.50}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.50}}@{}}
+\toprule
+\endhead
+\begin{minipage}[t]{\linewidth}\raggedright
+\textbf{Agenda}\\
+Day One
+
+\begin{enumerate}
+\tightlist
+\item
+  From Cell Phones to Smart Phone, Laptops to Tablets
+\item
+  Apple: iEverything\ldots{}
+\item
+  Android: Apple Slayer or just another phone?
+\item
+  Best of the Rest: Google, Amazon, Microsoft
+\item
+  Cloud Storage: Appropriate for Law Enforcement?
+\item
+  Security and Smart Devices: Personal vs. Agency Issued
+\item
+  ~VPN and Remote Desktop
+\end{enumerate}
+\end{minipage} & \begin{minipage}[t]{\linewidth}\raggedright
+\hfill\break
+Day Two
+
+\begin{enumerate}
+\tightlist
+\item
+  Application Basics
+\item
+  1 Applications for Law Enforcement
+\item
+  Evernote: Investigators \#1 App
+\item
+  Document Management with Apps
+\item
+  Deploying Smart Devices within your Department: Best Practices
+\item
+  Interacting with IT: Terminology, Security Concerns
+\item
+  Future of Devices, Apps~
+\end{enumerate}
+\end{minipage} \\
+\bottomrule
+\end{longtable}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.50}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.50}}@{}}
+\toprule
+\endhead
+\begin{minipage}[t]{\linewidth}\raggedright
+\ 
+\end{minipage} & \textbf{\$insInfo{[}'first\_name'{]}
+\$insInfo{[}'last\_name'{]}}
+
+substr(\$insInfo{[}'bio'{]},0,1040) \\
+\bottomrule
+\end{longtable}
+
+\begin{longtable}[]{@{}l@{}}
+\toprule
+\endhead
+\textbf{\$insInfo{[}"first\_name"{]} \$insInfo{[}"last\_name"{]}} \\
+\ \\
+\bottomrule
+\end{longtable}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.50}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.50}}@{}}
+\toprule
+\endhead
+\graphicspath{{C:/Users/jampu/Desktop/backend/xbackend/static/}}
+\includegraphics{main.png}
+& \vtop{\hbox{\strut Police Technical}\hbox{\strut 647 Ohio
+Street}\hbox{\strut Terre Haute, Indiana
+47807}\hbox{\strut 812.232.4200}\hbox{\strut \href{https://www.policetechnical.com}{www.policetechnical.com}}\hbox{\strut info@policetechnical.com}} \\
+\bottomrule
+\end{longtable}
+\enlargethispage{10\baselineskip}
+
+\end{document}
+{% endraw %}

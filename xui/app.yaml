@@ -1,0 +1,15 @@
+runtime: nodejs12
+# new service named default is created where frontend will hosted
+service: default
+#env: flex
+instance_class: F1
+#manual_scaling:
+#    instances: 5
+#threadsafe: true
+handlers:
+  - url: /static
+    static_dir: build/static
+  - url: /.*
+    secure: always
+    static_files: build/index.html
+    upload: build/index.html

@@ -1,0 +1,1799 @@
+openapi: 3.0.0
+
+info:
+  title: X Backend Classes
+  description: ""
+  version: 1.0.0
+
+paths:
+
+  /admin/classes/:
+    post:
+      tags:
+        - Admin Classes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminClassRequest'
+      responses:
+        '201':
+          description: Created class
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminClassResponse'
+    get:
+      tags:
+        - Admin Classes
+        
+      responses:
+        '200':
+          description: List of Classes
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  type: object
+                  properties:
+                    id: 
+                      type: integer
+                      example: 2
+                    course:
+                      type: string
+                      example: Excel for Public Safety
+                    instructor:
+                      type: string
+                      example: John Doe
+                    host:
+                      type: string
+                      example: Police Technical
+                    location:
+                      type: string
+                      example: Irving, TX
+                    startDate:
+                      type: string
+                      example: date time
+                    endDate:
+                      type: string
+                      example: date time
+                    status:
+                      type: string
+                      enum: [Tentative, Booked, Confirmed, Closed, Cancelled]
+                    type:
+                      type: string
+                      enum: [Open, In-Service, Conference, Webinar, Split, Speaker]
+                    students:
+                      type: string
+                      example: 12
+                    flight:
+                      type: boolean
+                    car:
+                      type: boolean
+                    hotel:
+                      type: boolean
+                    material:
+                      type: boolean
+        
+  /admin/classes/{classId}/:
+    parameters:
+    - name: classId
+      in: path
+      schema:
+        type:
+          integer
+      description: Class Id
+      required: true
+
+    get:
+      tags:
+        - Admin Classes
+      responses:
+        '200':
+          description: Class
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminClassResponse'
+          
+    put:
+      tags:
+        - Admin Classes
+      requestBody:
+        required: true
+        content:
+           application/json:
+            schema:
+              $ref: '#/components/schemas/AdminClassRequest'
+              
+      responses:
+        '200':
+          description: Topic
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminClassResponse'
+    
+    delete:
+      tags:
+        - Admin Classes
+      responses:
+        '200':
+          description: class deleted
+  
+  /admin/classes/signin/{classId}/:
+    parameters:
+    - name: classId
+      in: path
+      schema:
+        type:
+          integer
+      description: Class Id
+      required: true
+    
+    put:
+      tags:
+        - Admin Classes
+      requestBody:
+        required: false
+        content:
+           application/json:
+            schema:
+              type: array
+              items:
+                type: integer
+      responses:
+            '200':
+              description: success
+              
+  /admin/classes/sendEvaluation/{classId}/:
+    parameters:
+    - name: classId
+      in: path
+      schema:
+        type:
+          integer
+      description: Class Id
+      required: true
+    
+    post:
+      tags:
+        - Admin Classes
+      requestBody:
+        required: false
+        content:
+           application/json:
+            schema:
+              type: array
+              items:
+                type: integer
+      responses:
+            '200':
+              description: success
+              
+  /admin/classes/move/{classId}/:
+    parameters:
+    - name: classId
+      in: path
+      schema:
+        type:
+          integer
+      description: Class Id
+      required: true
+    
+    post:
+      tags:
+        - Admin Classes
+      description: Move student to new class
+      requestBody:
+        required: false
+        content:
+           application/json:
+            schema:
+              type: object
+              properties:
+                studentId:
+                  type: integer
+                destClassId:
+                  type: integer
+      responses:
+            '200':
+              description: success
+  /admin/classes/remove/{classId}/:
+    parameters:
+    - name: classId
+      in: path
+      schema:
+        type:
+          integer
+      description: Class Id
+      required: true
+    
+    post:
+      tags:
+        - Admin Classes
+      description: Move student to new class
+      requestBody:
+        required: false
+        content:
+           application/json:
+            schema:
+              type: object
+              properties:
+                studentId:
+                  type: integer
+
+      responses:
+            '200':
+              description: success
+  /admin/classes/substitute/{classId}/:
+    parameters:
+    - name: classId
+      in: path
+      schema:
+        type:
+          integer
+      description: Class Id
+      required: true
+    
+    post:
+      tags:
+        - Admin Classes
+      description: Move student to new class
+      requestBody:
+        required: false
+        content:
+           application/json:
+            schema:
+              type: object
+              properties:
+                studentId:
+                  type: integer
+                newStudentId:
+                  type: integer
+      responses:
+            '200':
+              description: success
+              
+  /admin/classes/inServiceRoster/{classId}/:
+    parameters:
+    - name: classId
+      in: path
+      schema:
+        type:
+          integer
+      description: Class Id
+      required: true
+    
+    post:
+      tags:
+        - Admin Classes
+      requestBody:
+        required: false
+        content:
+           application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                phone:
+                  type: string
+                agency:
+                  type: string
+      responses:
+            '200':
+              description: success
+  /classes/:
+    get:
+      tags:
+        - Classes
+        
+      responses:
+        '200':
+          description: List of Classes
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  type: object
+                  properties:
+                    id: 
+                      type: integer
+                      example: 2
+                    course:
+                      type: string
+                      example: Excel for Public Safety
+                    instructor:
+                      type: string
+                      example: John Doe
+                    host:
+                      type: string
+                      example: Police Technical
+                    location:
+                      type: string
+                      example: Irving, TX
+                    startDate:
+                      type: string
+                      example: date time
+                    endDate:
+                      type: string
+                      example: date time
+                    fee:
+                      type: string
+                      example: "135.00"
+  /classes/{classId}/:
+    parameters:
+    - name: classId
+      in: path
+      schema:
+        type:
+          integer
+      description: Class Id
+      required: true
+
+    get:
+      tags:
+        - Classes
+      responses:
+        '200':
+          description: Class
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  course:
+                    type: integer
+                  instructor:
+                    type: integer
+                  host:
+                    type: object
+                  location:
+                    type: integer
+                  startDate:
+                    type: string
+                  endDate:
+                    type: string
+                  startTime:
+                    type: string
+                  endTime:
+                    type: string
+                  earlyFee:
+                    type: string
+                    example: "120.00"
+                  regularFee:
+                    type: string
+                  lateFee:
+                    type: string
+                  fee:
+                    type: string
+  /classes/register/verifyAttendee/{classId}/:
+    parameters:
+    - name: classId
+      in: path
+      schema:
+        type:
+          integer
+      description: Class Id
+      required: true
+    
+    post:
+      tags:
+        - Classes
+      requestBody:
+        required: true
+        content:
+           application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                
+      responses:
+          '200':
+            description: success
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    studentId:
+                      type: integer
+                    email:
+                      type: string
+                    firstName:
+                      type: string
+                    lastName:
+                      type: string
+                    alreadyRegistered:
+                      type: boolean
+  /classes/register/{classId}/:
+    parameters:
+    - name: classId
+      in: path
+      schema:
+        type:
+          integer
+      description: Class Id
+      required: true
+    
+    post:
+      tags:
+        - Classes
+      requestBody:
+        required: true
+        content:
+           application/json:
+            schema:
+              type: object
+              properties:
+                promoId:
+                  type: integer
+                pmrAgency:
+                  type: string
+                pmrContact:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    phone:
+                      type: string
+                pmrAddress:
+                  type: object
+                  properties:
+                    address1:
+                      type: string
+                    address2:
+                      type: string
+                    city:
+                      type: string
+                    state:
+                      type: string
+                    zip:
+                      type: string
+                paymentMethod:
+                  type: string
+                paid:
+                  type: boolean
+                paidDate:
+                  type: string
+                price:
+                  type: string
+                card:
+                  type: string
+                attendees:
+                  type: array
+                  items:
+                    type: object
+              
+      responses:
+          '200':
+            description: success
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    invoiceNum:
+                      type: integer
+                    accessKey:
+                      type: string
+                    url:
+                      type: string
+
+  /classes/instructor/current/:
+    get:
+      tags:
+        - Instructor Dashboard
+      
+      responses:
+            '200':
+              description: success
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        course:
+                          type: string
+                        startDate:
+                          type: string
+                        endDate:
+                          type: string
+                        startTime:
+                          type: string
+                        endTime:
+                          type: string
+                        host:
+                          type: string
+                        location:
+                          type: string
+                        status:
+                          type: string
+                          enum: [BOOKED, CONFIRMED]
+                        bookedSeats:
+                          type: integer
+                        totalSeats:
+                          type: integer
+                        attendanceCode:
+                          type: integer
+                          example: 1234
+                          description: 4 digit pin
+                        roster:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              studentId:
+                                type: integer
+                              title:
+                                type: string
+                              firstName:
+                                type: string
+                              lastName:
+                                type: string
+                              agency:
+                                type: string
+                              attendance:
+                                type: boolean
+                        travelInfo:
+                          type: object
+                          properties:
+                            rentalInfo:
+                              type: string
+                            flightInfo:
+                              type: string
+                            hotelInfo:
+                              type: string
+                        docs:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                example: 2
+                              name:
+                                type: string
+                              url:
+                                type: string
+
+                
+  /classes/instructor/past/:
+    get:
+      tags:
+        - Instructor Dashboard
+      
+      responses:
+            '200':
+              description: success
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        course:
+                          type: string
+                        startDate:
+                          type: string
+                        endDate:
+                          type: string
+                        startTime:
+                          type: string
+                        endTime:
+                          type: string
+                        host:
+                          type: string
+                        location:
+                          type: string
+                        bookedSeats:
+                          type: integer
+                        totalSeats:
+                          type: integer
+                        attendanceCode:
+                          type: integer
+                          example: 1234
+                        roster:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              studentId:
+                                type: integer
+                              title:
+                                type: string
+                              firstName:
+                                type: string
+                              lastName:
+                                type: string
+                              agency:
+                                type: string
+                              attendance:
+                                type: boolean
+                        travelInfo:
+                          type: object
+                          properties:
+                            rentalInfo:
+                              type: string
+                            flightInfo:
+                              type: string
+                            hotelInfo:
+                              type: string
+                        docs:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                example: 2
+                              name:
+                                type: string
+                              url:
+                                type: string
+                        aar:
+                          type: array
+                          items:
+                            type: string
+                        evaluations:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              q1:
+                                type: integer
+                              q2:
+                                type: integer
+                              q3:
+                                type: integer
+                              q4:
+                                type: integer
+                              q5:
+                                type: integer
+                              q6:
+                                type: integer
+                              q7:
+                                type: integer
+                              q8:
+                                type: integer
+                              q9:
+                                type: integer
+                              q10:
+                                type: boolean
+                              q11:
+                                type: boolean
+                              q12:
+                                type: boolean
+                              comments:
+                                type: string
+                        notes:
+                          type: string
+  
+  /classes/instructor/docs/{classId}:
+    parameters:
+    - name: classId
+      in: path
+      schema:
+        type:
+          integer
+      description: Class Id
+      required: true
+      
+    post:
+      tags:
+        - Instructor Dashboard
+      requestBody:
+          required: false
+          content:
+             application/json:
+              schema:
+                type: object
+                properties:
+                  docs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        action:
+                          type: string
+                          enum: [ADD, DELETE]
+                          example: ADD
+                        id:
+                          type: integer
+                          example: 2
+      responses:
+        '200':
+          description: success
+          
+  /classes/instructor/courseDocs/:
+    parameters:
+    - name: courseId
+      in: query
+      schema:
+        type:
+          integer
+      description: course Id
+      required: true
+      
+    get:
+      tags:
+        - Instructor Dashboard
+        
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    courseId:
+                      type: integer
+                    title:
+                      type: string
+                    docs:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 2
+                          name:
+                            type: string
+                          url:
+                            type: string
+      
+    post:
+      tags:
+        - Instructor Dashboard
+      requestBody:
+          required: false
+          content:
+             application/json:
+              schema:
+                type: object
+                properties:
+                  docs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        action:
+                          type: string
+                          enum: [ADD, DELETE]
+                          example: ADD
+                        id:
+                          type: integer
+                          example: 2
+      responses:
+        '200':
+          description: success
+                          
+  /classes/instructor/attendance/{classId}/:
+    parameters:
+    - name: classId
+      in: path
+      schema:
+        type:
+          integer
+      description: Class Id
+      required: true
+    - name: studentId
+      in: query
+      schema:
+        type: integer
+      description: studentId
+    
+    post:
+      tags:
+        - Instructor Dashboard
+      description: Open attendance for a class
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                attendanceCode:
+                  type: integer
+                  example: 1234
+      responses:
+        '200':
+          description: success
+    put:
+      tags:
+        - Instructor Dashboard
+
+      responses:
+            '200':
+              description: success
+              
+  /classes/instructor/close/{classId}:
+    parameters:
+    - name: classId
+      in: path
+      schema:
+        type:
+          integer
+      description: Class Id
+      required: true
+      
+    post:
+      tags:
+        - Instructor Dashboard
+      requestBody:
+          required: false
+          content:
+             application/json:
+              schema:
+                type: object
+                properties:
+                  aar:
+                    type: array
+                    items:
+                      type: string
+                  attendance:
+                    type: array
+                    items:
+                      type: integer
+                  docs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        action:
+                          type: string
+                          enum: [ADD]
+                          example: ADD
+                        id:
+                          type: integer
+                          example: 2
+      responses:
+        '200':
+          description: success
+
+  /classes/student/current/:
+    get:
+      tags:
+        - Student Dashboard
+      
+      responses:
+            '200':
+              description: success
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        course:
+                          type: string
+                        instructor:
+                          type: string
+                        startDate:
+                          type: string
+                        endDate:
+                          type: string
+                        startTime:
+                          type: string
+                        endTime:
+                          type: string
+                        host:
+                          type: string
+                        location:
+                          type: string
+                        invoiceNum:
+                          type: integer
+                        accessKey:
+                          type: string
+                        paid:
+                          type: boolean
+                        attendance:
+                          type: boolean
+                          example: false
+                        
+  /classes/student/past/:
+    get:
+      tags:
+        - Student Dashboard
+      
+      responses:
+            '200':
+              description: success
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        course:
+                          type: string
+                        instructor:
+                          type: string
+                        startDate:
+                          type: string
+                        endDate:
+                          type: string
+                        host:
+                          type: string
+                        location:
+                          type: string
+                        invoiceNum:
+                          type: integer
+                        accessKey:
+                          type: string
+                        paid:
+                          type: boolean
+                        attendance:
+                          type: boolean
+                          example: false
+                        courseMaterials:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                example: 2
+                              name:
+                                type: string
+                              url:
+                                type: string
+                        docs:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                example: 2
+                              name:
+                                type: string
+                              url:
+                                type: string
+                        evaluation:
+                          type: object
+                          properties:
+                            q1:
+                              type: integer
+                            q2:
+                              type: integer
+                            q3:
+                              type: integer
+                            q4:
+                              type: integer
+                            q5:
+                              type: integer
+                            q6:
+                              type: integer
+                            q7:
+                              type: integer
+                            q8:
+                              type: integer
+                            q9:
+                              type: integer
+                            q10:
+                              type: boolean
+                            q11:
+                              type: boolean
+                            q12:
+                              type: boolean
+                            comments:
+                              type: string
+                        
+  
+  /classes/student/tracks/:
+    get:
+      tags:
+        - Student Dashboard
+      
+      responses:
+        '200':
+          description: success
+          content:
+               application/json:
+                schema:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      title:
+                        type: string
+                      shortName:
+                        type: string
+                      completedCourses:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            title:
+                              type: string
+                            completedOn:
+                              type: string
+                      remainingCourses:
+                        type: object
+                        properties:
+                          required:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                title:
+                                  type: string
+                          optional:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                title:
+                                  type: string
+                        
+                        
+              
+  /classes/student/attendance/{classId}/:
+    parameters:
+    - name: classId
+      in: path
+      schema:
+        type:
+          integer
+      description: Class Id
+      required: true
+    - name: attendanceCode
+      in: query
+      schema:
+        type: integer
+    
+    post:
+      tags:
+        - Student Dashboard
+      
+      responses:
+        '200':
+          description: success
+  
+  /classes/student/evaluation/{classId}/:
+    parameters:
+    - name: classId
+      in: path
+      schema:
+        type:
+          integer
+      description: Class Id
+      required: true
+    
+    post:
+      tags:
+        - Student Dashboard
+      requestBody:
+        required: false
+        content:
+           application/json:
+            schema:
+              type: object
+              properties:
+                q1:
+                  type: integer
+                q2:
+                  type: integer
+                q3:
+                  type: integer
+                q4:
+                  type: integer
+                q5:
+                  type: integer
+                q6:
+                  type: integer
+                q7:
+                  type: integer
+                q8:
+                  type: integer
+                q9:
+                  type: integer
+                q10:
+                  type: boolean
+                q11:
+                  type: boolean
+                q12:
+                  type: boolean
+                comments:
+                  type: string
+                interest:
+                  type: string
+      responses:
+            '200':
+              description: success
+  /classes/host/current/:
+    get:
+      tags:
+        - Host Dashboard
+      
+      responses:
+            '200':
+              description: success
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        course:
+                          type: string
+                        instructor:
+                          type: string
+                        startDate:
+                          type: string
+                        endDate:
+                          type: string
+                        location:
+                          type: string
+                        type:
+                          type: string
+                          enum: [OPEN, IN-SERVICE, SPLIT]
+                        status:
+                          type: string
+                          enum: [BOOKED, CONFIRMED, CLOSED]
+                        inServiceSeats:
+                          type: integer
+                        invoiceNum:
+                          type: integer
+                        accessKey:
+                          type: string
+                        paid:
+                          type: boolean
+  /classes/host/past/:
+    get:
+      tags:
+        - Host Dashboard
+      
+      responses:
+            '200':
+              description: success
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        course:
+                          type: string
+                        instructor:
+                          type: string
+                        startDate:
+                          type: string
+                        endDate:
+                          type: string
+                        location:
+                          type: string
+                        type:
+                          type: string
+                          enum: [OPEN, IN-SERVICE, SPLIT]
+                        status:
+                          type: string
+                          enum: [BOOKED, CONFIRMED, CLOSED]
+                        inServiceSeats:
+                          type: integer
+                        invoiceNum:
+                          type: integer
+                        accessKey:
+                          type: string
+                        paid:
+                          type: boolean
+  /invoice/:
+    parameters:
+    - name: invoiceNum
+      in: query
+      schema:
+        type:
+          integer
+      description: invoice number
+      required: true
+    - name: classId
+      in: query
+      schema:
+        type:
+          integer
+      description: invoice number
+      required: true
+    - name: accessKey
+      in: query
+      schema:
+        type:
+          string
+      required: true
+    
+    get:
+      tags:
+        - Invoice
+      
+      responses:
+            '200':
+              description: success
+              content:
+               application/json:
+                schema:
+                  type: object
+                  properties:
+                    promoId:
+                      type: integer
+                    pmrAgency:
+                      type: string
+                    pmrContact:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        name:
+                          type: string
+                        email:
+                          type: string
+                        phone:
+                          type: string
+                    pmrAddress:
+                      type: object
+                      properties:
+                        address1:
+                          type: string
+                        address2:
+                          type: string
+                        city:
+                          type: string
+                        state:
+                          type: string
+                        zip:
+                          type: string
+                    class:
+                      type: string
+                    startDate:
+                      type: string
+                    endDate:
+                      type: string
+                    paymentMethod:
+                      type: string
+                    paid:
+                      type: boolean
+                    paidDate:
+                      type: string
+                    price:
+                      type: string
+                    totalPrice: 
+                      type: string
+                    card:
+                      type: string
+                    transactionId:
+                      type: string
+                    attendees:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                          email:
+                            type: string
+    post:
+      tags:
+        - Invoice
+      requestBody:
+        required: false
+        content:
+           application/json:
+            schema:
+              type: object
+              properties:
+                totalPrice: 
+                  type: string
+                card:
+                  type: string
+                transactionId:
+                  type: string
+      responses:
+            '200':
+              description: success
+  
+  /admin/invoice/:
+
+    get:
+      tags:
+        - Admin Invoice
+      
+      responses:
+            '200':
+              description: success
+              content:
+               application/json:
+                schema:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      promoId:
+                        type: integer
+                      invoiceNum:
+                        type: string
+                      pmrAgency:
+                        type: string
+                      pmrContact:
+                        type: string
+                      type:
+                        type: string
+                        enum: [REGISTRATION, INSERVICE, CUSTOM]
+                      class:
+                        type: string
+                      paid:
+                        type: boolean
+                      refund:
+                        type: boolean
+                      totalPrice:
+                        type: string
+                      created:
+                        type: string
+                    
+    post:
+      tags:
+        - Admin Invoice
+      requestBody:
+        required: true
+        content:
+           application/json:
+            schema:
+              $ref: '#/components/schemas/AdminInvoiceRequest'
+      responses:
+            '200':
+              description: success
+              content:
+               application/json:
+                schema:
+                  $ref: '#/components/schemas/AdminInvoiceResponse'
+                  
+          
+  /admin/invoice/{invoiceNum}:
+    parameters:
+      - name: invoiceNum
+        in: path
+        schema: 
+          type: integer
+        required: true
+    get:
+      tags:
+        - Admin Invoice
+      
+      responses:
+            '200':
+              description: success
+              content:
+               application/json:
+                schema:
+                  $ref: '#/components/schemas/AdminInvoiceResponse'
+                    
+    put:
+      tags:
+        - Admin Invoice
+      requestBody:
+        required: true
+        content:
+           application/json:
+            schema:
+              $ref: '#/components/schemas/AdminInvoiceRequest'
+      responses:
+            '200':
+              description: success
+              content:
+               application/json:
+                schema:
+                  $ref: '#/components/schemas/AdminInvoiceResponse'
+                  
+    delete:
+      tags:
+        - Admin Invoice
+      responses:
+        '200':
+          description: invoice deleted
+
+
+components:
+  schemas:
+    AdminInvoiceRequest:
+      type: object
+      required: [pmrAgency, pmrContact, pmrAddress, type, price]
+      properties:
+        pmrAgency:
+          type: string
+        pmrContact:
+          type: object
+          properties:
+            title:
+              type: string
+            name:
+              type: string
+            email:
+              type: string
+            phone:
+              type: string
+        pmrAddress:
+          type: object
+          properties:
+            address1:
+              type: string
+            address2:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            zip:
+              type: string
+        type:
+          type: string
+          enum: [REGISTRATION, INSERVICE, CUSTOM]
+        cls:
+          type: integer
+          description: classId
+        paymentMethod:
+          type: string
+        paid:
+          type: boolean
+        paidDate:
+          type: string
+        refund:
+          type: boolean
+        refundDate:
+          type: string
+        refundNotes:
+          type: string
+        price:
+          type: string
+        totalPrice: 
+          type: string
+        card:
+          type: string
+        transactionId:
+          type: string
+        purchaseOrder:
+          type: string
+        checkNumber:
+          type: string
+        eftAch:
+          type: string
+        notes:
+          type: string
+        attendees:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              firstName:
+                type: string
+              lastName:
+                type: string
+              email:
+                type: string
+          
+    AdminInvoiceResponse:
+      type: object
+      properties:
+        accessKey:
+          type: string
+        pmrAgency:
+          type: string
+        pmrContact:
+          type: object
+          properties:
+            title:
+              type: string
+            name:
+              type: string
+            email:
+              type: string
+            phone:
+              type: string
+        pmrAddress:
+          type: object
+          properties:
+            address1:
+              type: string
+            address2:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            zip:
+              type: string
+        type:
+          type: string
+          enum: [REGISTRATION, INSERVICE, CUSTOM]
+        cls:
+          type: integer
+          description: classId
+        paymentMethod:
+          type: string
+        paid:
+          type: boolean
+        paidDate:
+          type: string
+        refund:
+          type: boolean
+        refundDate:
+          type: string
+        refundNotes:
+          type: string
+        price:
+          type: string
+        totalPrice: 
+          type: string
+        card:
+          type: string
+        transactionId:
+          type: string
+        purchaseOrder:
+          type: string
+        checkNumber:
+          type: string
+        eftAch:
+          type: string
+        notes:
+          type: string
+        attendees:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              firstName:
+                type: string
+              lastName:
+                type: string
+              email:
+                type: string
+        created:
+          type: string
+    AdminClassRequest:
+      type: object
+      required: [course, instructor, host, status, type, startDate, endDate, startTime, endTime]
+      properties:
+        course:
+          type: integer
+        instructor:
+          type: integer
+        host:
+          type: integer
+        location:
+          type: integer
+        status:
+          type: string
+          enum: [Tentative, Booked, Confirmed, Closed, Cancelled]
+        type:
+          type: string
+          enum: [Open, In-Service, Conference, Speaker, Webinar, Split]
+        startDate:
+          type: string
+        endDate:
+          type: string
+        startTime:
+          type: string
+        endTime:
+          type: string
+        earlyFee:
+          type: string
+          example: "120.00"
+        regularFee:
+          type: string
+        lateFee:
+          type: string
+        inServiceFee:
+          type: string
+        inServiceSeats:
+          type: integer
+        onlineMeetingDetails:
+          type: string
+        postedOnPTT:
+          type: boolean
+        orderDate:
+          type: string
+        orderDeliveryDate:
+          type: string
+        orderTrackingNumber:
+          type: string
+        orderCarrier:
+          type: string
+        orderQuantity:
+          type: string
+        orderPrice:
+          type: string
+        orderNotes:
+          type: string
+        flightPrice:
+          type: string
+        flightInfo:
+          type: string
+        carRentalPrice:
+          type: string
+        carRentalInfo:
+          type: string
+        hotelPrice:
+          type: string
+        hotelInfo:
+          type: string
+        docs:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              action:
+                type: string
+                enum: [ADD, DELETE]
+        adminNotes:
+          type: array
+          items:
+            type: string
+    AdminClassResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        course:
+          type: integer
+        instructor:
+          type: integer
+        host:
+          type: integer
+        location:
+          type: integer
+        status:
+          type: string
+          enum: [Tentative, Booked, Confirmed, Closed, Cancelled]
+        type:
+          type: string
+          enum: [Open, In-Service, Conference, Speaker, Webinar, Split]
+        startDate:
+          type: string
+        endDate:
+          type: string
+        startTime:
+          type: string
+        endTime:
+          type: string
+        earlyFee:
+          type: string
+          example: "120.00"
+        regularFee:
+          type: string
+        lateFee:
+          type: string
+        inServiceFee:
+          type: string
+        inServiceSeats:
+          type: integer
+        onlineMeetingDetails:
+          type: string
+        postedOnPTT:
+          type: boolean
+        orderDate:
+          type: string
+        orderDeliveryDate:
+          type: string
+        orderTrackingNumber:
+          type: string
+        orderCarrier:
+          type: string
+        orderQuantity:
+          type: string
+        orderPrice:
+          type: string
+        orderNotes:
+          type: string
+        flightPrice:
+          type: string
+        flightInfo:
+          type: string
+        carRentalPrice:
+          type: string
+        carRentalInfo:
+          type: string
+        hotelPrice:
+          type: string
+        hotelInfo:
+          type: string
+        aar:
+          type: array
+          items:
+            type: string
+        roster:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              firstName:
+                type: string
+              lastName:
+                type: string
+              agency:
+                type: string
+              email:
+                type: string
+              phone:
+                type: string
+              invoiceNum:
+                type: integer
+              attendance:
+                type: boolean
+        evaluation:
+          type: array
+          items:
+            type: object
+        docs:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              url:
+                type: string
+        adminNotes:
+          type: array
+          items:
+            type: string
+        created:
+          type: string
